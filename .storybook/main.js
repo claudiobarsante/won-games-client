@@ -1,10 +1,9 @@
 module.exports = {
-  "stories": [
-    "../src/components/**/stories.mdx",
-    "../src/components/**/stories.@(js|jsx|ts|tsx)"
-  ],
-  "addons": [
+  stories: ['../src/components/**/stories.tsx'],
+  addons: ['@storybook/addon-essentials'],
 
-    "@storybook/addon-essentials"
-  ]
+  webpackFinal: (config) => {//to consider /src as root
+    config.resolve.modules.push(`${process.cwd()}/src`)
+    return config
+  }
 }
