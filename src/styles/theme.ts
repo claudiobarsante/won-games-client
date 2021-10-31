@@ -1,4 +1,4 @@
-export default {
+export const themeApp = {
   grid: {
     container: '130rem',
     gutter: '3.2rem' //spacing between content tracks

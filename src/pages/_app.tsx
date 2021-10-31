@@ -3,11 +3,11 @@ import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 
 import GlobalStyles from 'styles/global';
-import theme from 'styles/theme';
+import { themeApp } from 'styles/theme';
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={themeApp}>
       <Head>
         <title>Won Games</title>
         <link rel="shortcut icon" href="/img/icon-512.png" />
