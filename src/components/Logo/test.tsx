@@ -1,15 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
-import Button from '.';
+import Logo from '.';
 
-describe('<Button />', () => {
-  it('should render the heading', () => {
-    const { container } = render(<Button />);
-
-    expect(
-      screen.getByRole('heading', { name: /Button/i })
-    ).toBeInTheDocument();
-
-    expect(container.firstChild).toMatchSnapshot();
-  });
+describe('<Logo />', () => {
+  it('should render a white label by default', () => {});
 });
