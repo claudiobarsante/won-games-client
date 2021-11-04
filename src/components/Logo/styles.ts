@@ -45,7 +45,7 @@ export const Container = styled.div<LogoProps>`
     color: ${theme.colors[
       color!
     ]}; // color! '!' not null assertion, you garantee that always will be a value
-    ${!!size && containerModifiers[size]}
-    ${!!hideOnMobile && containerModifiers.hideOnMobile}
+    ${!!size && containerModifiers[size]};
+    ${!!hideOnMobile && containerModifiers.hideOnMobile};
   `}
 `;
