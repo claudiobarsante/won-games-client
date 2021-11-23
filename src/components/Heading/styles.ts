@@ -3,6 +3,20 @@ import media from 'styled-media-query';
 import { HeadingProps } from '.';
 
 const containerModifiers = {
+  small: (theme: DefaultTheme) => css`
+    font-size: ${theme.font.sizes.medium};
+    &::after {
+      width: 3rem;
+    }
+  `,
+
+  medium: (theme: DefaultTheme) => css`
+    font-size: ${theme.font.sizes.xlarge};
+
+    ${media.greaterThan('medium')`
+     font-size: ${theme.font.sizes.xxlarge};
+`}
+  `,
   lineLeft: (theme: DefaultTheme) => css`
     padding-left: ${theme.spacings.xsmall};
     border-left: 0.7rem solid ${theme.colors.secondary};
@@ -23,15 +37,14 @@ const containerModifiers = {
 };
 
 export const Container = styled.h2<HeadingProps>`
-  ${({ theme, color, lineLeft, lineBottom }) => css`
+  ${({ theme, color, lineLeft, lineBottom, size }) => css`
     color: ${theme.colors[color!]};
-    font-size: ${theme.font.sizes.xlarge};
-
-    ${media.greaterThan('medium')`
-     font-size: ${theme.font.sizes.xxlarge};
-    `}
 
     ${lineLeft && containerModifiers.lineLeft(theme)};
     ${lineBottom && containerModifiers.lineBottom(theme)};
+    ${!!size &&
+    containerModifiers[size](
+      theme
+    )}//has to come after 'lineBottom' because it defines width:5rem
   `}
 `;
