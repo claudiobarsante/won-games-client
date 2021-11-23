@@ -1,6 +1,6 @@
 import styled, { css, DefaultTheme } from 'styled-components';
 import media from 'styled-media-query';
-import { HeadingProps } from '.';
+import { HeadingProps, LineColors } from '.';
 
 const containerModifiers = {
   small: (theme: DefaultTheme) => css`
@@ -17,11 +17,11 @@ const containerModifiers = {
      font-size: ${theme.font.sizes.xxlarge};
 `}
   `,
-  lineLeft: (theme: DefaultTheme) => css`
+  lineLeft: (theme: DefaultTheme, lineColor: LineColors) => css`
     padding-left: ${theme.spacings.xsmall};
-    border-left: 0.7rem solid ${theme.colors.secondary};
+    border-left: 0.7rem solid ${theme.colors[lineColor]};
   `,
-  lineBottom: (theme: DefaultTheme) => css`
+  lineBottom: (theme: DefaultTheme, lineColor: LineColors) => css`
     position: relative;
     margin-bottom: ${theme.spacings.medium};
 
@@ -31,17 +31,17 @@ const containerModifiers = {
       left: 0;
       bottom: -1rem;
       width: 5rem;
-      border-bottom: 0.5rem solid ${theme.colors.primary};
+      border-bottom: 0.5rem solid ${theme.colors[lineColor]};
     }
   `
 };
 
 export const Container = styled.h2<HeadingProps>`
-  ${({ theme, color, lineLeft, lineBottom, size }) => css`
+  ${({ theme, color, lineLeft, lineBottom, lineColor, size }) => css`
     color: ${theme.colors[color!]};
 
-    ${lineLeft && containerModifiers.lineLeft(theme)};
-    ${lineBottom && containerModifiers.lineBottom(theme)};
+    ${lineLeft && containerModifiers.lineLeft(theme, lineColor)};
+    ${lineBottom && containerModifiers.lineBottom(theme, lineColor)};
     ${!!size &&
     containerModifiers[size](
       theme
