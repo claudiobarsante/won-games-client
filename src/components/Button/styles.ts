@@ -47,11 +47,15 @@ const containerModifiers = {
 export const Container = styled.button<ContainerProps>`
   ${({ theme, size, fullWidth, hasIcon }) => css`
     background: linear-gradient(180deg, #ff5f5f 0%, #f062c0 50%);
-    color: ${theme.colors.white};
-    border: 0;
-    cursor: pointer;
     border-radius: ${theme.border.radius};
+    border: 0;
+    color: ${theme.colors.white};
+    cursor: pointer;
     padding: ${theme.spacings.xxsmall};
+
+    &:hover {
+      background: linear-gradient(180deg, #e35565 0%, #d958a6 50%);
+    }
 
     ${!!size && containerModifiers[size](theme)}
     ${!!fullWidth && containerModifiers.fullWidth()}

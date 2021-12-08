@@ -6,9 +6,9 @@ describe('<Footer />', () => {
   it('should render 4 column topics', () => {
     const { container } = renderWithTheme(<Footer />);
 
-    expect(
-      screen.getByRole('heading', { name: /contact/i })
-    ).toBeInTheDocument();
+    const contact = screen.getByRole('heading', { name: /contact/i });
+    expect(contact).toBeInTheDocument();
+    expect(contact.getAttribute('color')).toBe('black');
 
     expect(
       screen.getByRole('heading', { name: /follow us/i })
