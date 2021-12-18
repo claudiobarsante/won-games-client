@@ -19,7 +19,7 @@ const containerModifiers = {
       text-align: left;
     }
     ${FloatImage} {
-      justify-self: end;
+      justify-self: end; //to positioned inside the grid
     }
   `
 };
