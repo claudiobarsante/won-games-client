@@ -3,6 +3,22 @@ import GlobalStyles from 'styles/global'
 import { themeApp } from 'styles/theme';
 
 
+
+export const parameters = {
+  backgrounds: {
+    default: 'won-light',
+    values: [
+      {
+        name: 'won-light',
+        value: themeApp.colors.white
+      },
+      {
+        name: 'won-dark',
+        value: themeApp.colors.mainBg
+      }
+    ]
+  }
+}
 // export const parameters = {
 //   actions: { argTypesRegex: "^on[A-Z].*" },
 //   controls: {
@@ -17,7 +33,7 @@ import { themeApp } from 'styles/theme';
 export const decorators = [
   (Story) => (
     <ThemeProvider theme={themeApp}>
-      <GlobalStyles />
+      <GlobalStyles removeBg />
       <Story />
     </ThemeProvider>
   )
