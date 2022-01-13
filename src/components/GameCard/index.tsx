@@ -8,7 +8,7 @@ import Button from 'components/Button';
 import Ribbon, { RibbonColors, RibbonSizes } from 'components/Ribbon';
 
 export type GameCardProps = {
-  name: string;
+  title: string;
   developer: string;
   img: string;
   price: string;
@@ -21,7 +21,7 @@ export type GameCardProps = {
 };
 
 const GameCard = ({
-  name,
+  title,
   developer,
   img,
   price,
@@ -39,11 +39,11 @@ const GameCard = ({
       </Ribbon>
     )}
     <S.ImageBox>
-      <img src={img} alt={name} />
+      <img src={img} alt={title} />
     </S.ImageBox>
     <S.Content>
       <S.GameInfo>
-        <S.GameName>{name}</S.GameName>
+        <S.GameName>{title}</S.GameName>
         <S.GameDeveloper>{developer}</S.GameDeveloper>
       </S.GameInfo>
       <S.FavButton onClick={onFav} role="button">

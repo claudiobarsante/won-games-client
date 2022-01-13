@@ -5,7 +5,7 @@ import { themeApp } from 'styles/theme';
 import GameCard from '.';
 
 const props = {
-  name: 'Population Zero',
+  title: 'Population Zero',
   developer: 'Rockstar Games',
   img: 'https://source.unsplash.com/user/willianjusten/300x140',
   price: '$235.00',
@@ -16,16 +16,16 @@ describe('<GameCard  />', () => {
     renderWithTheme(<GameCard {...props} />);
 
     expect(
-      screen.getByRole('heading', { name: props.name })
+      screen.getByRole('heading', { name: props.title })
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('heading', { name: props.developer })
     ).toBeInTheDocument();
 
-    expect(screen.getByRole('img', { name: props.name })).toBeInTheDocument();
+    expect(screen.getByRole('img', { name: props.title })).toBeInTheDocument();
 
-    expect(screen.getByRole('img', { name: props.name })).toHaveAttribute(
+    expect(screen.getByRole('img', { name: props.title })).toHaveAttribute(
       'src',
       'https://source.unsplash.com/user/willianjusten/300x140'
     );
