@@ -22,7 +22,7 @@ export const Input = styled.input`
     display: flex;
     align-items: center;
     justify-content: center;
-    appearance: none;
+    appearance: none; // to hide original appearence of checkbox
     width: 1.8rem;
     height: 1.8rem;
     border: 0.2rem solid ${theme.colors.darkGray};

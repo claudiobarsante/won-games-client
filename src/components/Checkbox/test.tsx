@@ -1,6 +1,6 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { themeApp } from 'styles/theme';
-
+import userEvent from '@testing-library/user-event';
 import Checkbox from '.';
 import { renderWithTheme } from './../../utils/tests/helpers';
 
@@ -28,5 +28,43 @@ describe('<Checkbox />', () => {
     expect(screen.getByText(/checkbox label/i)).toHaveStyle({
       color: themeApp.colors.black
     });
+  });
+
+  it('should dispatch onCheck when status change', async () => {
+    const onCheck = jest.fn();
+    renderWithTheme(<Checkbox label="Checkbox" onCheck={onCheck} />);
+
+    expect(onCheck).not.toHaveBeenCalled();
+
+    userEvent.click(screen.getByRole('checkbox'));
+    await waitFor(() => {
+      expect(onCheck).toHaveBeenCalledTimes(1);
+    });
+
+    expect(onCheck).toHaveBeenCalledWith(true);
+  });
+
+  it('should dispatch onCheck when status change', async () => {
+    const onCheck = jest.fn();
+    renderWithTheme(<Checkbox label="Checkbox" onCheck={onCheck} isChecked />);
+
+    expect(onCheck).not.toHaveBeenCalled();
+
+    userEvent.click(screen.getByRole('checkbox'));
+    await waitFor(() => {
+      expect(onCheck).toHaveBeenCalledTimes(1);
+    });
+
+    expect(onCheck).toHaveBeenCalledWith(false);
+  });
+
+  it('should be accessible with tab', () => {
+    renderWithTheme(<Checkbox label="Checkbox" labelFor="Checkbox" />);
+
+    //first the page has the focus
+    expect(document.body).toHaveFocus();
+
+    userEvent.tab();
+    expect(screen.getByLabelText(/checkbox/i)).toHaveFocus();
   });
 });
