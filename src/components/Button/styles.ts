@@ -4,7 +4,7 @@ import { darken } from 'polished';
 
 // -- pick properties from ButtonProps
 // --union properties from ContainerProps with ButtonProps
-type ContainerProps = { hasIcon: boolean } & Pick<
+export type ContainerProps = { hasIcon: boolean } & Pick<
   ButtonProps,
   'size' | 'fullWidth' | 'minimal'
 >;
