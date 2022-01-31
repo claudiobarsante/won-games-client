@@ -19,26 +19,26 @@ const props = {
   freeHighligth: highlightMock
 };
 
-jest.mock('components/Menu', () => {
-  return {
-    __esModule: true, // - to declare that it's a ES6 module
-    default: function Mock() {
-      // - export default came here as default
-      return <div data-testid="Mock Menu"></div>;
-    }
-    // -named export could cme here
-    //foo: jest.fn(()=> ...)
-  };
-});
+// jest.mock('components/Menu', () => {
+//   return {
+//     __esModule: true, // - to declare that it's a ES6 module
+//     default: function Mock() {
+//       // - export default came here as default
+//       return <div data-testid="Mock Menu"></div>;
+//     }
+//     // -named export could cme here
+//     //foo: jest.fn(()=> ...)
+//   };
+// });
 
-jest.mock('components/Footer', () => {
-  return {
-    __esModule: true,
-    default: function Mock() {
-      return <div data-testid="Mock Footer"></div>;
-    }
-  };
-});
+// jest.mock('components/Footer', () => {
+//   return {
+//     __esModule: true,
+//     default: function Mock() {
+//       return <div data-testid="Mock Footer"></div>;
+//     }
+//   };
+// });
 
 jest.mock('components/Showcase', () => {
   return {
@@ -59,12 +59,12 @@ jest.mock('components/BannerSlider', () => {
 });
 
 describe('<Home />', () => {
-  it('should render menu and footer', () => {
+  it('should render Banner and Showcases', () => {
     renderWithTheme(<Home {...props} />);
 
-    expect(screen.getByTestId('Mock Menu')).toBeInTheDocument();
+    //  expect(screen.getByTestId('Mock Menu')).toBeInTheDocument();
     expect(screen.getByTestId('Mock Banner Slider')).toBeInTheDocument();
     expect(screen.getAllByTestId('Mock Showcase')).toHaveLength(5);
-    expect(screen.getByTestId('Mock Footer')).toBeInTheDocument();
+    // expect(screen.getByTestId('Mock Footer')).toBeInTheDocument();
   });
 });
