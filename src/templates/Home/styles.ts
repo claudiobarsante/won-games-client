@@ -1,30 +1,8 @@
 import styled, { css } from 'styled-components';
 import media from 'styled-media-query';
 import * as HeadingStyles from 'components/Heading/styles';
-import * as GameCardSliderStyles from 'components/GameCardSlider/styles';
-import * as HighlightStyles from 'components/Highlight/styles';
 
-const Sections = styled.section`
-  ${({ theme }) => css`
-    ${HeadingStyles.Container},
-    ${HighlightStyles.Container},
-    ${GameCardSliderStyles.Container} {
-      margin-bottom: ${theme.spacings.medium};
-    }
-    ${HighlightStyles.Container} {
-      ${media.lessThan('medium')`
-        margin-right: calc(-${theme.grid.gutter} / 2);
-        margin-left: calc(-${theme.grid.gutter} / 2);
-      `}
-    }
-    ${GameCardSliderStyles.Container} {
-      ${media.lessThan('huge')`
-        margin-right: calc(-${theme.grid.gutter} / 2);
-      `}
-    }
-    margin-bottom: calc(${theme.spacings.large} * 2);
-  `}
-`;
+import * as HighlightStyles from 'components/Highlight/styles';
 
 export const SectionBanner = styled.section`
   ${({ theme }) => css`
@@ -36,8 +14,8 @@ export const SectionBanner = styled.section`
     `}
   `}
 `;
-//! -- SectionsNews extends Sections
-export const SectionNews = styled(Sections)`
+
+export const SectionNews = styled.div`
   ${({ theme }) => css`
     margin-bottom: calc(${theme.spacings.xxlarge} * 2);
     ${media.greaterThan('large')`
@@ -55,17 +33,14 @@ export const SectionNews = styled(Sections)`
     `}
   `}
 `;
-export const SectionMostPopular = styled(Sections)``;
 
-export const SectionUpcoming = styled(Sections)`
+export const SectionUpcoming = styled.div`
   ${({ theme }) => css`
     ${HighlightStyles.Container} {
       margin-top: calc(${theme.spacings.xlarge} * 2);
     }
   `}
 `;
-
-export const SectionFreeGames = styled(Sections)``;
 
 //? you can build the clip-path at https://bennettfeely.com/clippy/
 export const SectionFooter = styled.section`
