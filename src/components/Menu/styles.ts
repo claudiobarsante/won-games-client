@@ -8,6 +8,7 @@ export const Container = styled.menu`
 
     padding: ${theme.spacings.small} 0;
     position: relative;
+    z-index: ${theme.layers.menu};
   `}
 `;
 
