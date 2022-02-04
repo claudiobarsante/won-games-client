@@ -1,16 +1,17 @@
+import { useEffect, useState, useRef } from 'react';
+import SlickSlider from 'react-slick';
+
 import { ArrowBackIos as ArrowLeft } from '@styled-icons/material-outlined/ArrowBackIos';
 import { ArrowForwardIos as ArrowRight } from '@styled-icons/material-outlined/ArrowForwardIos';
-import { useEffect, useState, useRef } from 'react';
+import { Close } from '@styled-icons/material-outlined/Close';
 
 import Slider, { SliderSettings } from '../Slider';
-import { Close } from '@styled-icons/material-outlined/Close';
 import * as S from './styles';
-import SlickSlider, { Settings } from 'react-slick';
 
 const commonSettings: SliderSettings = {
+  arrows: true,
   infinite: false,
   lazyLoad: 'ondemand',
-  arrows: true,
   nextArrow: <ArrowRight aria-label="next image" />,
   prevArrow: <ArrowLeft aria-label="previous image" />
 };
