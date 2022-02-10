@@ -23,5 +23,9 @@ export const SectionFooter = styled.section`
 `;
 
 export const Content = styled.div`
-  flex: 1 0 auto; //--This is the shorthand for flex-grow, flex-shrink and flex-basis
+  ${({ theme }) => css`
+    margin-top: ${theme.spacings.xlarge}
+    flex: 1 0 auto; //--This is the shorthand for flex-grow, flex-shrink and flex-basis
+
+`}
 `;
