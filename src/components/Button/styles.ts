@@ -47,10 +47,16 @@ const containerModifiers = {
     &:hover {
       color: ${darken(0.1, theme.colors.primary)};
     }
+  `,
+  disabled: () => css`
+    &:disabled {
+      cursor: not-allowed;
+      filter: saturate(30%);
+    }
   `
 };
 export const Container = styled.button<ContainerProps>`
-  ${({ theme, size, fullWidth, hasIcon, minimal }) => css`
+  ${({ theme, size, fullWidth, hasIcon, minimal, disabled }) => css`
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -72,5 +78,6 @@ export const Container = styled.button<ContainerProps>`
     ${!!fullWidth && containerModifiers.fullWidth()}
     ${!!hasIcon && containerModifiers.withIcon(theme)}
     ${!!minimal && containerModifiers.minimal(theme)}
+    ${disabled && containerModifiers.disabled()};
   `}
 `;
