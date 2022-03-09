@@ -8,7 +8,7 @@ type WrapperProps = {
 };
 
 export const Wrapper = styled.div<WrapperProps>`
-  ${({ theme }) => css`
+  ${({ theme, isEmpty }) => css`
     background: ${theme.colors.white};
     display: flex;
     flex-direction: column;

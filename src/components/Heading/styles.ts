@@ -44,8 +44,8 @@ export const Container = styled.h2<HeadingProps>`
   ${({ theme, color, lineLeft, lineBottom, lineColor, size }) => css`
     color: ${theme.colors[color!]};
 
-    ${lineLeft && containerModifiers.lineLeft(theme, lineColor)};
-    ${lineBottom && containerModifiers.lineBottom(theme, lineColor)};
+    ${lineLeft && containerModifiers.lineLeft(theme, lineColor!)};
+    ${lineBottom && containerModifiers.lineBottom(theme, lineColor!)};
     ${!!size &&
     containerModifiers[size](
       theme

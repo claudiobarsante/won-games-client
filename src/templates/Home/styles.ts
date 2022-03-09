@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components';
 import media from 'styled-media-query';
-import * as HeadingStyles from 'components/Heading/styles';
 
-import * as HighlightStyles from 'components/Highlight/styles';
+import * as HeadingStyles from 'components/Heading/styles';
 
 export const SectionBanner = styled.section`
   ${({ theme }) => css`
@@ -34,13 +33,13 @@ export const SectionNews = styled.div`
   `}
 `;
 
-export const SectionUpcoming = styled.div`
-  ${({ theme }) => css`
-    ${HighlightStyles.Container} {
-      margin-top: calc(${theme.spacings.xlarge} * 2);
-    }
-  `}
-`;
+// export const SectionUpcoming = styled.div`
+//   ${({ theme }) => css`
+//     ${HighlightStyles.Container} {
+//       margin-top: calc(${theme.spacings.xlarge} * 2);
+//     }
+//   `}
+// `;
 
 //? you can build the clip-path at https://bennettfeely.com/clippy/
 // export const SectionFooter = styled.section`

@@ -8,10 +8,10 @@ export default {
   argTypes: {
     children: {
       type: 'string'
-    },
-    icon: {
-      type: ''
     }
+    // icon: {
+    //   type: ''
+    // }
   }
 } as Meta;
 

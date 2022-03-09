@@ -6,7 +6,7 @@ import GameInfo from '.';
 const props = {
   title: 'My Game Title',
   description: 'Game Description',
-  price: '210.00'
+  price: 210
 };
 
 describe('<GameInfo />', () => {
@@ -24,6 +24,7 @@ describe('<GameInfo />', () => {
     ).toBeInTheDocument();
 
     expect(container.firstChild).toMatchSnapshot();
+    expect(screen.getByText(/\$210\.00/)).toBeInTheDocument();
   });
 
   it('should render buttons', () => {

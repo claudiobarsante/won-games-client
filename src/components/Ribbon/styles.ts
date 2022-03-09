@@ -55,7 +55,7 @@ export const Container = styled.div<Omit<RibbonProps, 'children'>>`
       border-bottom-color: transparent;
       border-bottom-width: 1rem;
     }
-    ${!!color && containerModifiers[size](theme)}
-    ${!!size && containerModifiers.color(theme, color)}
+    ${!!color && containerModifiers[size!](theme)}
+    ${!!size && containerModifiers.color(theme, color!)}
   `}
 `;

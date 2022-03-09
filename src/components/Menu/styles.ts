@@ -1,6 +1,16 @@
 import styled, { css } from 'styled-components';
 import media from 'styled-media-query';
 
+export const Wrapper = styled.menu<MenuFullProps>`
+  ${({ theme, isOpen }) => css`
+    display: flex;
+    align-items: center;
+    padding: ${theme.spacings.small} 0;
+    position: relative;
+    z-index: ${isOpen ? theme.layers.menu : `calc(${theme.layers.menu} - 1)`};
+  `}
+`;
+
 export const Container = styled.menu`
   ${({ theme }) => css`
     display: flex;

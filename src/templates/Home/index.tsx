@@ -1,35 +1,42 @@
-import { HighlightProps } from 'components/Highlight';
-import { BannerProps } from 'components/Banner';
-import { Container } from 'components/Container';
-import { GameCardProps } from 'components/GameCard';
-import BannerSlider from 'components/BannerSlider';
 import Base from 'templates/Base';
+
+import { BannerProps } from 'components/Banner';
+import { GameCardProps } from 'components/GameCard';
+import { HighlightProps } from 'components/Highlight';
+import { Container } from 'components/Container';
+import BannerSlider from 'components/BannerSlider';
 import Showcase from 'components/Showcase';
 
 import * as S from './styles';
 
 export type HomeTemplateProps = {
   banners: BannerProps[];
+  newGamesTitle: string;
   newGames: GameCardProps[];
+  mostPopularGamesTitle: string;
   mostPopularHighlight: HighlightProps;
   mostPopularGames: GameCardProps[];
-  upcommingGames: GameCardProps[];
-  upcommingHighligth: HighlightProps;
-  upcommingMoreGames: GameCardProps[];
+  upcomingGamesTitle: string;
+  upcomingGames: GameCardProps[];
+  upcomingHighlight: HighlightProps;
+  freeGamesTitle: string;
   freeGames: GameCardProps[];
-  freeHighligth: HighlightProps;
+  freeHighlight: HighlightProps;
 };
 
 const Home = ({
   banners,
+  newGamesTitle = 'midar depois',
   newGames,
+  mostPopularGamesTitle,
   mostPopularHighlight,
   mostPopularGames,
-  upcommingGames,
-  upcommingHighligth,
-  upcommingMoreGames,
+  upcomingGamesTitle,
+  upcomingGames,
+  upcomingHighlight,
+  freeGamesTitle,
   freeGames,
-  freeHighligth
+  freeHighlight
 }: HomeTemplateProps) => (
   <Base>
     <Container>
@@ -37,22 +44,27 @@ const Home = ({
         <BannerSlider items={banners} />
       </S.SectionBanner>
     </Container>
-
     <S.SectionNews>
-      <Showcase title="News" games={newGames} />
+      <Showcase title={newGamesTitle} games={newGames} />
     </S.SectionNews>
 
     <Showcase
-      title="Most Popular"
+      title={mostPopularGamesTitle}
       highlight={mostPopularHighlight}
       games={mostPopularGames}
     />
 
-    <S.SectionUpcoming>
-      <Showcase title="Upcoming" games={upcommingGames} />
-      <Showcase highlight={upcommingHighligth} games={upcommingMoreGames} />
-    </S.SectionUpcoming>
-    <Showcase title="Free games" highlight={freeHighligth} games={freeGames} />
+    <Showcase
+      title={upcomingGamesTitle}
+      games={upcomingGames}
+      highlight={upcomingHighlight}
+    />
+
+    <Showcase
+      title={freeGamesTitle}
+      highlight={freeHighlight}
+      games={freeGames}
+    />
   </Base>
 );
 

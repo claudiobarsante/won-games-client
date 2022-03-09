@@ -5,11 +5,12 @@ import { themeApp } from 'styles/theme';
 import GameCard from '.';
 
 const props = {
+  slug: 'population-zero',
   title: 'Population Zero',
   developer: 'Rockstar Games',
   img: 'https://source.unsplash.com/user/willianjusten/300x140',
-  price: '$235.00',
-  promotionalPrice: ''
+  price: 235.0,
+  promotionalPrice: 0
 };
 describe('<GameCard  />', () => {
   it('should render the GameCard correctly', () => {
@@ -30,6 +31,11 @@ describe('<GameCard  />', () => {
       'https://source.unsplash.com/user/willianjusten/300x140'
     );
 
+    expect(screen.getByRole('link', { name: props.title })).toHaveAttribute(
+      'href',
+      `/game/${props.slug}`
+    );
+
     expect(screen.getByText(props.price)).toBeInTheDocument();
 
     expect(screen.getByLabelText(/Add To Wishlist/i)).toBeInTheDocument();
@@ -48,7 +54,7 @@ describe('<GameCard  />', () => {
   });
 
   it('should render a line-through in price when promotional', () => {
-    props.promotionalPrice = '$100';
+    props.promotionalPrice = 100;
     renderWithTheme(<GameCard {...props} />);
 
     expect(screen.getByText(props.price)).toHaveStyle({
