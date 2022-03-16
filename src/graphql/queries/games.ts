@@ -1,19 +1,20 @@
 import { gql } from '@apollo/client';
+import { GameFragment } from './../fragments/game';
 
 export const QUERY_GAMES = gql`
   query QueryGames($limit: Int!) {
     games(limit: $limit) {
-      name
-      slug
-      cover {
-        url
-      }
-      developers {
-        name
-      }
-      price
+      ...GameFragment
+    }
+    upcomingGames: games(
+      where: { release_date_gt: "2021-01-27" }
+      sort: "release_date:desc"
+      limit: 8
+    ) {
+      ...GameFragment
     }
   }
+  ${GameFragment}
 `;
 
 export const QUERY_GAME_BY_SLUG = gql`
