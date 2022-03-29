@@ -8,10 +8,10 @@ import GlobalStyles from 'styles/global';
 import { themeApp } from 'styles/theme';
 
 function App({ Component, pageProps }: AppProps) {
-  const client = useApollo(pageProps.initialApoloState);
+  const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <ThemeProvider theme={themeApp}>
         <Head>
           <title>Won Games</title>

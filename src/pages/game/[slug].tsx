@@ -8,6 +8,14 @@ import {
 } from 'graphql/generated/QueryGameBySlug';
 import { GetStaticProps, GetStaticPropsContext } from 'next';
 import { initializeApollo } from 'utils/apollo';
+import { QueryRecommended } from 'graphql/generated/QueryRecommended';
+import { QUERY_RECOMMENDED } from 'graphql/queries/recommended';
+import { gamesMapper, highlightMapper } from 'utils/mappers';
+import {
+  QueryUpcoming,
+  QueryUpcomingVariables
+} from 'graphql/generated/QueryUpcoming';
+import { QUERY_UPCOMING } from 'graphql/queries/upcoming';
 
 const apolloClient = initializeApollo();
 
@@ -36,6 +44,7 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async ({
   params
 }: GetStaticPropsContext) => {
+  //Get game data
   const { data } = await apolloClient.query<
     QueryGameBySlug,
     QueryGameBySlugVariables
@@ -50,6 +59,20 @@ export const getStaticProps: GetStaticProps = async ({
 
   const game = data.games[0];
 
+  //Get recommended games
+  const { data: recommendedSection } =
+    await apolloClient.query<QueryRecommended>({
+      query: QUERY_RECOMMENDED
+    });
+
+  //Get upcomming games and highlight
+  const TODAY = new Date().toISOString().slice(0, 10);
+  const { data: upcoming } = await apolloClient.query<
+    QueryUpcoming,
+    QueryUpcomingVariables
+  >({ query: QUERY_UPCOMING, variables: { date: TODAY } });
+
+  console.log(upcoming);
   return {
     props: {
       revalidate: 60,
@@ -71,7 +94,16 @@ export const getStaticProps: GetStaticProps = async ({
         publisher: game.publisher?.name,
         rating: game.rating,
         genres: game.categories.map((category) => category.name)
-      }
+      },
+      upcomingTitle: upcoming.showcase?.upComingGames?.title,
+      upcomingGames: gamesMapper(upcoming.upcomingGames),
+      upcomingHighlight: highlightMapper(
+        upcoming.showcase?.upComingGames?.highlight
+      ),
+      recommendedTitle: recommendedSection.recommended?.section?.title,
+      recommendedGames: gamesMapper(
+        recommendedSection.recommended?.section?.games
+      )
     }
   };
 };

@@ -9,7 +9,8 @@ import highlightMock from 'components/Highlight/mock';
 const props = {
   games: gamesMock,
   recommendedHighlight: highlightMock,
-  recommendedGames: gamesMock
+  recommendedGames: gamesMock,
+  recommendedTitle: 'You may like these games'
 };
 
 jest.mock('components/Showcase', () => ({
@@ -33,6 +34,7 @@ describe('<Wishlist />', () => {
   it('should render empty when thre are no games', () => {
     renderWithTheme(
       <Wishlist
+        recommendedTitle="You may like these games"
         recommendedGames={gamesMock}
         recommendedHighlight={highlightMock}
       />

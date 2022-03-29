@@ -14,12 +14,14 @@ import Empty from 'components/Empty';
 export type CartProps = {
   recommendedGames: GameCardProps[];
   recommendedHighlight: HighlightProps;
+  recommendedTitle: string;
 } & CartListProps &
   Pick<PaymentOptionsProps, 'cards'>;
 
 const Cart = ({
   recommendedGames,
   recommendedHighlight,
+  recommendedTitle = 'You may like these games!',
   items,
   total,
   cards
@@ -51,7 +53,7 @@ const Cart = ({
       </Container>
 
       <Showcase
-        title="You may like these games"
+        title={recommendedTitle}
         games={recommendedGames}
         highlight={recommendedHighlight}
       />
