@@ -1,11 +1,6 @@
-import {
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-  NormalizedCacheObject
-} from '@apollo/client';
+import { ApolloClient, HttpLink, NormalizedCacheObject } from '@apollo/client';
+import apolloCache from './apolloCache';
 import { useMemo } from 'react';
-import { concatPagination } from '@apollo/client/utilities';
 
 let apolloClient: ApolloClient<NormalizedCacheObject | null>;
 
@@ -13,15 +8,7 @@ function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: new HttpLink({ uri: 'http://localhost:1337/graphql' }),
-    cache: new InMemoryCache({
-      typePolicies: {
-        Query: {
-          fields: {
-            games: concatPagination(['where', 'sort'])
-          }
-        }
-      }
-    })
+    cache: apolloCache
   });
 }
 
@@ -40,6 +27,7 @@ export function initializeApollo(initialState = null) {
       ...existingCache,
       ...(typeof initialState === 'object' ? initialState : {})
     });
+    //_apolloClient.cache.restore(initialState);
   }
 
   // For SSG and SSR always create a new Apollo Client

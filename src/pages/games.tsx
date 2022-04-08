@@ -11,12 +11,11 @@ export default function GamesPage(props: GamesTemplateProps) {
 export async function getStaticProps() {
   const apolloClient = initializeApollo();
 
-  const { data } = await apolloClient.query<QueryGames, QueryGamesVariables>({
+  await apolloClient.query<QueryGames, QueryGamesVariables>({
     query: QUERY_GAMES,
     variables: { limit: 15 }
   });
 
-  console.log('data', data.games);
   return {
     props: {
       initialApolloState: apolloClient.cache.extract(),
