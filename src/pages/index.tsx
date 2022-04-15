@@ -20,12 +20,13 @@ export const getStaticProps: GetStaticProps = async () => {
     query: QUERY_HOME,
     variables: {
       date: TODAY
-    }
+    },
+    fetchPolicy: 'no-cache' // garantir sempre dado novo na geração do estático! -  to avoid conflict with revalidade ISR -Next.js
   });
 
   return {
+    revalidade: 10,
     props: {
-      revalidade: 60,
       banners: bannerMapper(banners),
       newGames: gamesMapper(newGames),
       mostPopularHighlight: highlightMapper(sections?.popularGames?.highlight),
