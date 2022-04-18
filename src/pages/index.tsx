@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps = async () => {
   });
 
   return {
-    revalidade: 10,
+    revalidate: 10,
     props: {
       banners: bannerMapper(banners),
       newGames: gamesMapper(newGames),

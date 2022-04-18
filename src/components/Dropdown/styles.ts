@@ -8,6 +8,8 @@ export const Title = styled.div`
     display: flex;
     align-items: center;
     padding-right: 2.4rem;
+    z-index: ${theme.layers
+      .alwaysOnTop}; //vai ficar sempre na frente mesmo usando o overlay
   `}
 `;
 
@@ -20,6 +22,8 @@ export const Content = styled.div`
     margin-top: ${theme.spacings.small};
     position: absolute;
     right: 0;
+    z-index: ${theme.layers
+      .alwaysOnTop}; //vai ficar sempre na frente mesmo usando o overlay
     &::before {
       content: '';
       position: absolute;
@@ -29,6 +33,20 @@ export const Content = styled.div`
       top: -1.2rem;
       right: 2.4rem;
     }
+  `}
+`;
+
+export const Overlay = styled.div`
+  ${({ theme }) => css`
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    //para ocupar toda a tela
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    //
+    z-index: ${theme.layers.overlay};
   `}
 `;
 
@@ -53,7 +71,7 @@ export const Wrapper = styled.div<WrapperProps>`
   ${({ theme, isOpen }) => css`
     position: relative;
     width: max-content;
-    ${Content} {
+    ${Content},${Overlay} {
       transition: transform 0.2s ease-in, opacity ${theme.transition.default};
       ${isOpen && wrapperModifiers.open()}
       ${!isOpen && wrapperModifiers.close()}
