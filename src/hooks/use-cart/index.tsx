@@ -1,7 +1,7 @@
 import { useQueryGames } from 'graphql/queries/games';
 import { useContext, createContext, useState, useEffect } from 'react';
 import formatPrice from 'utils/format-price';
-import { getStorageItem } from 'utils/localStorage';
+import { getStorageItem, setStorageItem } from 'utils/localStorage';
 import { cartMapper } from 'utils/mappers';
 
 const CART_KEY = 'cartItems';
@@ -17,12 +17,22 @@ export type CartContextData = {
   items: CartItem[];
   quantity: number;
   total: string;
+  isInCart: (id: string) => boolean;
+  addToCart: (id: string) => void;
+  removeFromCart: (id: string) => void;
+  clearCart: () => void;
+  loading: boolean;
 };
 
 export const CartContextDefaultValues = {
   items: [],
   quantity: 0,
-  total: '$0.00'
+  total: '$0.00',
+  isInCart: () => false,
+  addToCart: () => null,
+  removeFromCart: () => null,
+  clearCart: () => null,
+  loading: false
 };
 
 export const CartContext = createContext<CartContextData>(
@@ -42,7 +52,7 @@ const CartProvider = ({ children }: CartProviderProps) => {
     if (data) setCartItems(data);
   }, []);
   //? o skip é para não fazer a query. No caso se não tiver itens no carrinho, não roda a query
-  const { data } = useQueryGames({
+  const { data, loading } = useQueryGames({
     skip: !cartItems?.length,
     variables: {
       where: { id: cartItems }
@@ -53,12 +63,42 @@ const CartProvider = ({ children }: CartProviderProps) => {
     return acc + game.price;
   }, 0);
 
+  const isInCart = (id: string): boolean => {
+    const result = cartItems?.find((item) => item === id);
+    return result === id;
+  };
+
+  const saveCart = (cartItems: string[]) => {
+    setCartItems(cartItems);
+    setStorageItem(CART_KEY, cartItems);
+  };
+
+  const addToCart = (id: string): void => {
+    saveCart([...cartItems, id]);
+  };
+
+  const removeFromCart = (id: string): void => {
+    const updatedCartItems = cartItems.filter(
+      (itemId: string) => itemId !== id
+    );
+    saveCart(updatedCartItems);
+  };
+
+  const clearCart = () => {
+    saveCart([]);
+  };
+
   return (
     <CartContext.Provider
       value={{
         items: cartMapper(data?.games),
         quantity: cartItems.length,
-        total: formatPrice(total || 0)
+        total: formatPrice(total || 0),
+        isInCart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        loading
       }}
     >
       {children}
