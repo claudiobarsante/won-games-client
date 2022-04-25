@@ -2,8 +2,8 @@
 import '../../../.jest/match-media-mock';
 // -- has to mock the matchmedia because the tests are running in the jsdom and it don't have all the features
 // --
-import { render, screen } from '@testing-library/react';
-
+//import { render, screen } from '@testing-library/react';
+import { render, screen } from 'utils/test-utils';
 import Slider from '.';
 
 describe('<Slider />', () => {

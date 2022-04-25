@@ -1,7 +1,9 @@
-import { screen } from '@testing-library/react';
+//import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { renderWithTheme } from 'utils/tests/helpers';
+//import { renderWithTheme } from 'utils/tests/helpers';
 import { css } from 'styled-components';
+
+import { render, screen } from 'utils/test-utils';
 
 import ExploreSidebar from '.';
 import { Overlay } from './styles';
@@ -10,7 +12,7 @@ import items from './mock';
 
 describe('<ExploreSidebar />', () => {
   it('should render headings', () => {
-    renderWithTheme(<ExploreSidebar items={items} onFilter={jest.fn} />);
+    render(<ExploreSidebar items={items} onFilter={jest.fn} />);
 
     expect(screen.getByRole('heading', { name: /price/i })).toBeInTheDocument();
     expect(
@@ -23,7 +25,7 @@ describe('<ExploreSidebar />', () => {
   });
 
   it('should render inputs', () => {
-    renderWithTheme(<ExploreSidebar items={items} onFilter={jest.fn} />);
+    render(<ExploreSidebar items={items} onFilter={jest.fn} />);
 
     expect(
       screen.getByRole('checkbox', { name: /under \$50/i })
@@ -35,13 +37,13 @@ describe('<ExploreSidebar />', () => {
   });
 
   it('should render the filter button', () => {
-    renderWithTheme(<ExploreSidebar items={items} onFilter={jest.fn} />);
+    render(<ExploreSidebar items={items} onFilter={jest.fn} />);
 
     expect(screen.getByRole('button', { name: /filter/i })).toBeInTheDocument();
   });
 
   it('should check initial values that are passed', () => {
-    renderWithTheme(
+    render(
       <ExploreSidebar
         items={items}
         onFilter={jest.fn}
@@ -60,7 +62,7 @@ describe('<ExploreSidebar />', () => {
   it('should filter with initial values', () => {
     const onFilter = jest.fn();
 
-    renderWithTheme(
+    render(
       <ExploreSidebar
         items={items}
         initialValues={{ platforms: ['windows'], sort_by: 'low-to-high' }}

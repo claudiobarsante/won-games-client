@@ -1,10 +1,11 @@
 import { themeApp } from 'styles/theme';
-import { renderWithTheme } from 'utils/tests/helpers';
+//import { renderWithTheme } from 'utils/tests/helpers';
 import { Container } from '.';
+import { render } from 'utils/test-utils';
 
 describe('<Container />', () => {
   it('should render the heading', () => {
-    const { container } = renderWithTheme(
+    const { container } = render(
       <Container>
         <span>Won Games</span>
       </Container>

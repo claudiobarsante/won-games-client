@@ -1,6 +1,6 @@
-import { screen } from '@testing-library/react';
-import { renderWithTheme } from 'utils/tests/helpers';
-
+//import { screen } from '@testing-library/react';
+//import { render } from 'utils/tests/helpers';
+import { render, screen } from 'utils/test-utils';
 import GameInfo from '.';
 
 const props = {
@@ -11,7 +11,7 @@ const props = {
 
 describe('<GameInfo />', () => {
   it('should render game informations', () => {
-    const { container } = renderWithTheme(<GameInfo {...props} />);
+    const { container } = render(<GameInfo {...props} />);
 
     // esperar por um heading (title)
     // esperar por description
@@ -28,7 +28,7 @@ describe('<GameInfo />', () => {
   });
 
   it('should render buttons', () => {
-    renderWithTheme(<GameInfo {...props} />);
+    render(<GameInfo {...props} />);
 
     // esperar button add to cart
     // esperar button wishlist
