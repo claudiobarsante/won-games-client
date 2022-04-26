@@ -55,6 +55,12 @@ export const InputContainer = styled.div`
       //--It selects an element if that element contains any children that have :focus.
       box-shadow: 0 0 0.5rem ${theme.colors.primary};
     }
+    //removing Chrome autofill style and adding grey
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 ${theme.spacings.small}
+        ${theme.colors.lightGray} inset;
+      filter: none;
+    }
   `}
 `;
 
