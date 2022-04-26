@@ -41,7 +41,9 @@ describe('<TextField />', () => {
 
   it('Changes its value when typing', async () => {
     const onInput = jest.fn();
-    render(<TextField onInput={onInput} label="TextField" name="TextField" />);
+    render(
+      <TextField onInputChange={onInput} label="TextField" name="TextField" />
+    );
 
     const input = screen.getByRole('textbox');
     const text = 'This is my new text';
@@ -58,7 +60,7 @@ describe('<TextField />', () => {
     const onInput = jest.fn();
     render(
       <TextField
-        onInput={onInput}
+        onInputChange={onInput}
         label="TextField"
         name="TextField"
         disabled

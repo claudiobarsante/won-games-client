@@ -9,7 +9,7 @@ export type TextFieldProps = {
   initialValue?: string;
   label?: string;
 
-  onInput?: (value: string) => void;
+  onInputChange?: (value: string) => void;
 } & InputHTMLAttributes<HTMLInputElement>;
 
 const TextField = ({
@@ -20,7 +20,7 @@ const TextField = ({
   initialValue = '',
   label,
   name,
-  onInput,
+  onInputChange,
   ...props
 }: TextFieldProps) => {
   const [value, setValue] = useState(initialValue);
@@ -29,7 +29,7 @@ const TextField = ({
     const newValue = e.currentTarget.value;
     setValue(newValue);
 
-    !!onInput && onInput(newValue);
+    !!onInputChange && onInputChange(newValue);
   };
 
   return (
