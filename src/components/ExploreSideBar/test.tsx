@@ -81,7 +81,7 @@ describe('<ExploreSidebar />', () => {
   it('should filter with checked values', () => {
     const onFilter = jest.fn();
 
-    renderWithTheme(<ExploreSidebar items={items} onFilter={onFilter} />);
+    render(<ExploreSidebar items={items} onFilter={onFilter} />);
 
     userEvent.click(screen.getByLabelText(/windows/i));
     userEvent.click(screen.getByLabelText(/linux/i));
@@ -100,7 +100,7 @@ describe('<ExploreSidebar />', () => {
   it('should altern between radio options', () => {
     const onFilter = jest.fn();
 
-    renderWithTheme(<ExploreSidebar items={items} onFilter={onFilter} />);
+    render(<ExploreSidebar items={items} onFilter={onFilter} />);
 
     userEvent.click(screen.getByLabelText(/low to high/i));
     userEvent.click(screen.getByLabelText(/high to low/i));
@@ -111,7 +111,7 @@ describe('<ExploreSidebar />', () => {
   });
 
   it('should open/close sidebar when filtering on mobile ', () => {
-    const { container } = renderWithTheme(
+    const { container } = render(
       <ExploreSidebar items={items} onFilter={jest.fn} />
     );
 

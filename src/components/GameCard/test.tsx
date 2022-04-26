@@ -1,20 +1,21 @@
-//import { screen, fireEvent } from '@testing-library/react';
-//import { renderWithTheme } from 'utils/tests/helpers';
+//import 'session.mock';
+import { render, screen } from 'utils/test-utils';
 import { themeApp } from 'styles/theme';
-import { render, screen, fireEvent } from 'utils/test-utils';
+
 import GameCard from '.';
 
 const props = {
+  id: '1',
   slug: 'population-zero',
   title: 'Population Zero',
   developer: 'Rockstar Games',
   img: 'https://source.unsplash.com/user/willianjusten/300x140',
-  price: 235.0,
-  promotionalPrice: 0
+  price: 235
 };
-describe('<GameCard  />', () => {
-  it('should render the GameCard correctly', () => {
-    render(<GameCard {...props} />);
+
+describe('<GameCard />', () => {
+  it('should render correctly', () => {
+    const { container } = render(<GameCard {...props} />);
 
     expect(
       screen.getByRole('heading', { name: props.title })
@@ -24,11 +25,9 @@ describe('<GameCard  />', () => {
       screen.getByRole('heading', { name: props.developer })
     ).toBeInTheDocument();
 
-    expect(screen.getByRole('img', { name: props.title })).toBeInTheDocument();
-
     expect(screen.getByRole('img', { name: props.title })).toHaveAttribute(
       'src',
-      'https://source.unsplash.com/user/willianjusten/300x140'
+      props.img
     );
 
     expect(screen.getByRole('link', { name: props.title })).toHaveAttribute(
@@ -36,51 +35,30 @@ describe('<GameCard  />', () => {
       `/game/${props.slug}`
     );
 
-    expect(screen.getByText(props.price)).toBeInTheDocument();
+    expect(screen.getByLabelText(/add to wishlist/i)).toBeInTheDocument();
 
-    expect(screen.getByLabelText(/Add To Wishlist/i)).toBeInTheDocument();
+    expect(container.firstChild).toMatchSnapshot();
   });
 
-  it('should render current price with no promotion', () => {
+  it('should render price in label', () => {
     render(<GameCard {...props} />);
 
-    expect(screen.getByText(props.price)).toHaveStyle({
-      backgroundColor: themeApp.colors.secondary
-    });
+    const price = screen.getByText('$235.00');
 
-    expect(screen.getByText(props.price)).not.toHaveStyle({
-      'text-decoration': 'line-through'
-    });
+    expect(price).not.toHaveStyle({ textDecoration: 'line-through' });
+    expect(price).toHaveStyle({ backgroundColor: themeApp.colors.secondary });
   });
 
   it('should render a line-through in price when promotional', () => {
-    props.promotionalPrice = 100;
-    render(<GameCard {...props} />);
+    render(<GameCard {...props} promotionalPrice={15} />);
 
-    expect(screen.getByText(props.price)).toHaveStyle({
-      color: '#8F8F8F',
-      'text-decoration': 'line-through'
+    expect(screen.getByText('$235.00')).toHaveStyle({
+      textDecoration: 'line-through'
     });
-    expect(screen.getByText(props.promotionalPrice)).toHaveStyle({
-      backgroundColor: '#3cd3c1'
+
+    expect(screen.getByText('$15.00')).not.toHaveStyle({
+      textDecoration: 'line-through'
     });
-  });
-
-  it('should render a filled  Favorite icon when favorite is true', () => {
-    render(<GameCard {...props} favorite />);
-
-    expect(screen.getByLabelText(/Remove from Wishlist/i)).toBeInTheDocument();
-  });
-
-  it('should call onFave method when favorite is clicked', () => {
-    const onFav = jest.fn();
-
-    render(<GameCard {...props} favorite onFav={onFav} />);
-
-    fireEvent.click(screen.getAllByRole('button')[0]);
-    expect(onFav).toBeCalled();
-
-    expect(screen.getByLabelText(/Remove from Wishlist/i)).toBeInTheDocument();
   });
 
   it('should render Ribbon', () => {

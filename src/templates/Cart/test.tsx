@@ -10,8 +10,6 @@ import cardsMock from 'components/PaymentOptions/mock';
 import Cart from '.';
 
 const props = {
-  items: itemsMock,
-  total: '$ 430,00',
   cards: cardsMock,
   recommendedHighlight: highlightMock,
   recommendedGames: gamesMock,
@@ -64,11 +62,5 @@ describe('<Cart />', () => {
     expect(screen.getByTestId('Mock PaymentOptions')).toBeInTheDocument();
     expect(screen.getByTestId('Mock Showcase')).toBeInTheDocument();
     expect(screen.queryByTestId('Mock Empty')).not.toBeInTheDocument();
-  });
-
-  it('should render empty section if there are no items', () => {
-    renderWithTheme(<Cart {...props} items={[]} />);
-
-    expect(screen.getByTestId('Mock Empty')).toBeInTheDocument();
   });
 });
