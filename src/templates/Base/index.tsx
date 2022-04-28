@@ -1,6 +1,9 @@
 import { Container } from 'components/Container';
 import Footer from 'components/Footer';
 import Menu from 'components/Menu';
+import { getSession } from 'next-auth/react';
+import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 import * as S from './styles';
 
@@ -8,20 +11,25 @@ export type BaseTemplateProps = {
   children: React.ReactNode;
 };
 
-const Base = ({ children }: BaseTemplateProps) => (
-  <S.Wrapper>
-    <Container>
-      <Menu />
-    </Container>
+const Base = ({ children }: BaseTemplateProps) => {
+  const { data: session, status } = useSession();
+  console.log('useSession-->', session, 'status-->', status);
 
-    <S.Content>{children}</S.Content>
-
-    <S.SectionFooter>
+  return (
+    <S.Wrapper>
       <Container>
-        <Footer />
+        <Menu username={session?.user?.name} />
       </Container>
-    </S.SectionFooter>
-  </S.Wrapper>
-);
+
+      <S.Content>{children}</S.Content>
+
+      <S.SectionFooter>
+        <Container>
+          <Footer />
+        </Container>
+      </S.SectionFooter>
+    </S.Wrapper>
+  );
+};
 
 export default Base;

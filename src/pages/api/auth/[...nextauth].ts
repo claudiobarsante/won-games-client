@@ -4,10 +4,10 @@ import { Session } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-type AuthorizeProps = {
-  email: string;
-  password: string;
-};
+// type AuthorizeProps = {
+//   email: string;
+//   password: string;
+// };
 
 const options: NextAuthOptions = {
   pages: {
@@ -25,7 +25,7 @@ const options: NextAuthOptions = {
         email: {},
         password: {}
       },
-      async authorize(credentials, req) {
+      async authorize(credentials) {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/auth/local`,
           {
@@ -38,64 +38,44 @@ const options: NextAuthOptions = {
           }
         );
         const data = await res.json();
-        //console.log('data', data);
 
-        // If no error and we have user data, return it
-        // if (data.user) {
-        //   console.log('passei aqui');
-        //   return { ...data.user, jwt: data.jwt };
-        // }
-        if (data.user) return data;
         // Return null if user data could not be retrieved
-        return null;
+        if (!data.user) return null;
+
+        // Any object returned will be saved in `user` property of the JWT
+        const user = {
+          id: data.user.id.toString(),
+          username: data.user.username,
+          email: data.user.email,
+          jwt: data.jwt
+        };
+
+        return user;
       }
     })
   ],
+  session: { strategy: 'jwt' },
   callbacks: {
-    // session: async (session: Session, user: User) => {
-    //   console.log('userjwtinsession', user);
-    //   session.jwt = user.jwt;
-    //   session.id = user.id;
-
-    //   return Promise.resolve(session);
-    // },
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       // Send properties to the client, like an access_token from a provider.
-      //session.jwt = user.jwt;
-      //session.id = user.id;
+      session.id = token.id;
+      session.email = token.email;
+      session.name = token.name;
+      session.jwt = token.jwt;
 
-      //console.log('session', session, 'token', token, 'user', user);
+      console.log('---session', session);
       return session;
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
-      // console.log('--token', token);
-
-      // if (user) {
-      //   //console.log('--user dentro do if', user.id, user?.email);
-      //   const userData = { ...user };
-      //   console.log('userData', userData);
-
-      //   // token.id = userData.
-      //   token.email = userData.email;
-      //   // token.name = userData.username as string;
-      //   // token.jwt = userData.jwt;
-
-      //   console.log('new token', token);
-      // }
-
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+        token.name = user.username as string;
+        token.jwt = user.jwt;
+      }
+      console.log('---token', token);
       return token;
     }
-    // jwt: async (token: JWT, user: User) => {
-    //   console.log('userjwt', user);
-    //   if (user) {
-    //     token.id = user.id;
-    //     token.email = user.email;
-    //     token.name = user.username as string;
-    //     token.jwt = user.jwt;
-    //   }
-
-    //   return Promise.resolve(token);
-    // }
   }
 };
 
