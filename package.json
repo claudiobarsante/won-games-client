@@ -24,7 +24,7 @@
     "graphql": "^15.0.0",
     "lodash.xor": "^4.5.0",
     "next": "11.1.0",
-    "next-auth": "^3.29.3",
+    "next-auth": "^4.0.0-beta.7",
     "next-pwa": "^5.3.1",
     "nextjs-progressbar": "^0.0.14",
     "polished": "^4.1.3",
