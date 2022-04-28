@@ -1,8 +1,6 @@
 import { Container } from 'components/Container';
 import Footer from 'components/Footer';
 import Menu from 'components/Menu';
-import { getSession } from 'next-auth/react';
-import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 import * as S from './styles';
@@ -13,7 +11,6 @@ export type BaseTemplateProps = {
 
 const Base = ({ children }: BaseTemplateProps) => {
   const { data: session, status } = useSession();
-  console.log('useSession-->', session, 'status-->', status);
 
   return (
     <S.Wrapper>

@@ -63,17 +63,17 @@ const options: NextAuthOptions = {
       session.name = token.name;
       session.jwt = token.jwt;
 
-      console.log('---session', session);
       return session;
     },
     async jwt({ token, user }) {
       if (user) {
+        //add any info to the token, so you can retrieve in the session calbakc and pass to the session
         token.id = user.id;
         token.email = user.email;
         token.name = user.username as string;
         token.jwt = user.jwt;
       }
-      console.log('---token', token);
+
       return token;
     }
   }

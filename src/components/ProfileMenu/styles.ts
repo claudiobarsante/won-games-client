@@ -33,6 +33,7 @@ export const Nav = styled.nav`
 
 export const Link = styled.a<LinkProps>`
   ${({ theme, isActive }) => css`
+    cursor: pointer;
     text-decoration: none;
     display: flex;
     align-items: center;

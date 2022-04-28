@@ -5,7 +5,7 @@ import {
   ExitToApp
 } from '@styled-icons/material-outlined';
 import { ChevronDown } from '@styled-icons/boxicons-regular/ChevronDown';
-
+import { signOut } from 'next-auth/react';
 import Dropdown from 'components/Dropdown';
 
 import * as S from './styles';
@@ -38,12 +38,10 @@ const UserDropdown = ({ username }: UserDropdownProps) => (
         </S.Link>
       </Link>
 
-      <Link href="/logout" passHref>
-        <S.Link title="Sign out">
-          <ExitToApp />
-          <span>Sign out</span>
-        </S.Link>
-      </Link>
+      <S.Link role="button" onClick={() => signOut()}>
+        <ExitToApp size={24} title="Sign out" />
+        <span>Sign out</span>
+      </S.Link>
     </S.Nav>
   </Dropdown>
 );
