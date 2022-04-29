@@ -54,7 +54,16 @@ const options: NextAuthOptions = {
       }
     })
   ],
-  session: { strategy: 'jwt' },
+  session: {
+    // Note: `strategy` should be set to 'jwt' if no database is used.
+    strategy: 'jwt'
+  },
+  jwt: {
+    // The secret should be set to a reasonably long random string.
+    // It is used to sign cookies and to sign and encrypt JSON Web Tokens, unless
+    // a separate secret is defined explicitly for encrypting the JWT.
+    secret: process.env.SECRET
+  },
   callbacks: {
     async session({ session, token }) {
       // Send properties to the client, like an access_token from a provider.

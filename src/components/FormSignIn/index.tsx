@@ -1,22 +1,40 @@
 import * as S from './styles';
-import { Email, Lock } from '@styled-icons/material-outlined';
+import { Email, Lock, ErrorOutline } from '@styled-icons/material-outlined';
 import TextField from 'components/TextField';
 import Button from 'components/Button';
 import Link from 'next/link';
-import { FormContainer, FormLink, FormLoading } from 'components/Form';
+import {
+  FormContainer,
+  FormLink,
+  FormLoading,
+  FormError
+} from 'components/Form';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { FieldErrors, signInValidate } from 'utils/validations';
 
 const FormSignIn = () => {
-  const [values, setValues] = useState({});
+  const [formError, setFormError] = useState('');
+  const [fieldError, setFieldError] = useState<FieldErrors>({});
+  const [values, setValues] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
   const { push } = useRouter();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
-    const result = await signIn('credentials', {
+
+    const errors = signInValidate(values);
+    if (Object.keys(errors).length) {
+      setFieldError(errors);
+      setLoading(false);
+      return;
+    }
+
+    setFieldError({});
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result: any = await signIn('credentials', {
       ...values,
       redirect: false,
       callbackUrl: '/'
@@ -26,7 +44,8 @@ const FormSignIn = () => {
       return push(result?.url);
     }
     setLoading(false);
-    console.error('email verification failed');
+    //if tthere's an error
+    setFormError('username or password is invalid');
   };
 
   const handleInput = (field: string, value: string) => {
@@ -34,11 +53,18 @@ const FormSignIn = () => {
   };
   return (
     <FormContainer>
+      {!!formError && (
+        <FormError>
+          <ErrorOutline />
+          {formError}
+        </FormError>
+      )}
       <form onSubmit={handleSubmit}>
         <TextField
           name="email"
           placeholder="Email"
           type="email"
+          error={fieldError?.email}
           onInputChange={(newValue) => handleInput('email', newValue)}
           icon={<Email />}
         />
@@ -46,6 +72,7 @@ const FormSignIn = () => {
           name="password"
           placeholder="Password"
           type="password"
+          error={fieldError?.password}
           onInputChange={(newValue) => handleInput('password', newValue)}
           icon={<Lock />}
         />
