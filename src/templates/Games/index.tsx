@@ -21,7 +21,7 @@ export type GamesTemplateProps = {
 
 const GamesTemplate = ({ filterItems }: GamesTemplateProps) => {
   const { push, query } = useRouter();
-  console.log('client', query);
+
   const { data, loading, fetchMore } = useQueryGames({
     notifyOnNetworkStatusChange: true,
     variables: {

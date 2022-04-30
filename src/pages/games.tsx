@@ -11,7 +11,6 @@ export default function GamesPage(props: GamesTemplateProps) {
 }
 
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
-  console.log('server', query);
   const filterPrice = {
     title: 'Price',
     name: 'price_lte',

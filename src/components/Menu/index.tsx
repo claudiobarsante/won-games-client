@@ -15,10 +15,10 @@ import UserDropdown from 'components/UserDropdown';
 
 export type MenuProps = {
   username?: string | null;
-  loading?: boolean;
+  status?: 'authenticated' | 'loading' | 'unauthenticated';
 };
 
-const Menu = ({ username, loading }: MenuProps) => {
+const Menu = ({ username, status }: MenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -48,7 +48,7 @@ const Menu = ({ username, loading }: MenuProps) => {
         </S.MenuNav>
       </MediaMatch>
 
-      {!loading && (
+      {status !== 'loading' && (
         <>
           <S.MenuGroup>
             <S.IconContainer>

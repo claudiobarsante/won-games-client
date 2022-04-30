@@ -77,7 +77,7 @@ describe('<Games />', () => {
 
     expect(await screen.findByText(/Fetch More Game/i)).toBeInTheDocument();
 
-    screen.logTestingPlaygroundURL();
+    // screen.logTestingPlaygroundURL();
   });
 
   it('should change push router when selecting a filter', async () => {

@@ -19,7 +19,9 @@ const FormSignIn = () => {
   const [fieldError, setFieldError] = useState<FieldErrors>({});
   const [values, setValues] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
-  const { push } = useRouter();
+
+  const router = useRouter();
+  const { push, query } = router; //to prevent de query to return undefined
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -37,7 +39,7 @@ const FormSignIn = () => {
     const result: any = await signIn('credentials', {
       ...values,
       redirect: false,
-      callbackUrl: '/'
+      callbackUrl: `${window.location.origin}${query?.callbackUrl || ''}` //takes the site base url, ex: wwww.mystite.com and concatenates to the callbackUrl define in the protected route to redirect to the page the you were before signed in
     });
 
     if (result?.url) {

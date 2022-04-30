@@ -54,4 +54,11 @@ describe('<Menu />', () => {
     expect(screen.queryByText(/sign in/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/sign up/i)).not.toBeInTheDocument();
   });
+
+  it('should not show sign ir or dropdownUser if loading', () => {
+    render(<Menu username="test" status="unauthenticated" />);
+
+    //expect(screen.queryByText(/my profile/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/sign in/i)).not.toBeInTheDocument();
+  });
 });
