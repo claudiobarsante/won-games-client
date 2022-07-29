@@ -1,22 +1,23 @@
 import { useState } from 'react';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/router';
-
-import { Email, ErrorOutline } from '@styled-icons/material-outlined';
-
-import { FormContainer, FormLoading, FormError } from 'components/Form';
+import { FormContainer, FormLoading, FormError,FormSuccess } from 'components/Form';
 import Button from 'components/Button';
 import TextField from 'components/TextField';
 
-import { FieldErrors } from 'utils/validations';
+import { FieldErrors, forgotValidate } from 'utils/validations';
+import {
+  CheckCircleOutline,
+  Email,
+  ErrorOutline
+} from '@styled-icons/material-outlined';
 
 const FormForgotPassword = () => {
+  const [success,setSuccess] = useState(false);
   const [formError, setFormError] = useState('');
   const [fieldError, setFieldError] = useState<FieldErrors>({});
   const [values, setValues] = useState({ email: '' });
   const [loading, setLoading] = useState(false);
-  const routes = useRouter();
-  const { push, query } = routes;
+
+
 
   const handleInput = (field: string, value: string) => {
     setValues((s) => ({ ...s, [field]: value }));
@@ -26,7 +27,7 @@ const FormForgotPassword = () => {
     event.preventDefault();
     setLoading(true);
 
-    const errors = {}; // validate after
+    const errors = forgotValidate(values);
 
     if (Object.keys(errors).length) {
       setFieldError(errors);
@@ -36,44 +37,66 @@ const FormForgotPassword = () => {
 
     setFieldError({});
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: any = await signIn('credentials', {
-      ...values,
-      redirect: false,
-      callbackUrl: `${window.location.origin}${query?.callbackUrl || ''}`
-    });
+     // enviar um post para /forgot-password pedindo um email
+     const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(values)
+      }
+    )
 
-    if (result?.url) {
-      return push(result?.url);
+    const data = await response.json()
+    setLoading(false)
+
+    if (data.error) {
+     setFormError(data.message[0].messages[0].message)
+
+    } else {
+     setSuccess(true)
+
     }
 
-    setLoading(false);
 
-    // jogar o erro
-    setFormError('username or password is invalid');
+
+
+
   };
 
   return (
     <FormContainer>
-      {!!formError && (
-        <FormError>
-          <ErrorOutline /> {formError}
-        </FormError>
-      )}
-      <form onSubmit={handleSubmit}>
-        <TextField
-          name="email"
-          placeholder="Email"
-          type="email"
-          error={fieldError?.email}
-          onInputChange={(v) => handleInput('email', v)}
-          icon={<Email />}
-        />
+     {success ? (
+        <FormSuccess>
+          <CheckCircleOutline />
+          You just received an email!
+        </FormSuccess>
+      ) : (
+        <>
+          {!!formError && (
+            <FormError>
+              <ErrorOutline /> {formError}
+            </FormError>
+          )}
+          <form onSubmit={handleSubmit}>
+            <TextField
+              name="email"
+              placeholder="Email"
+              type="text"
+              error={fieldError?.email}
+              //initialValue={query.email as string}
+              onInputChange={(v) => handleInput('email', v)}
+              icon={<Email />}
+            />
 
-        <Button type="submit" size="large" fullWidth disabled={loading}>
-          {loading ? <FormLoading /> : <span>Send email</span>}
-        </Button>
-      </form>
+            <Button type="submit" size="large" fullWidth disabled={loading}>
+              {loading ? <FormLoading /> : <span>Send email</span>}
+            </Button>
+          </form>
+        </>
+      )}
     </FormContainer>
   );
 };
