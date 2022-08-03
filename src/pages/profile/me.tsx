@@ -5,6 +5,9 @@ import { GetServerSidePropsContext } from 'next';
 import Profile from 'templates/Profile';
 import { initializeApollo } from 'utils/apollo';
 import protectedRoutes from 'utils/protected-routes';
+import unstable_getServerSession from 'next-auth/next';
+import { authOptions } from 'pages/api/auth/[...nextauth]';
+import { getSession } from 'next-auth/react';
 
 export default function Me(props: FormProfileProps) {
   return (
@@ -16,6 +19,13 @@ export default function Me(props: FormProfileProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context);
+  // const session = await unstable_getServerSession(
+  //   context.req,
+  //   context.res,
+  //   authOptions
+  // );
+  //const session = await getSession(context);
+  console.log('session', session);
   const apolloClient = initializeApollo(null, session);
 
   const { data } = await apolloClient.query<QueryProfileMe>({

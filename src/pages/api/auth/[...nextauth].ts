@@ -1,7 +1,7 @@
-import NextAuth, { NextAuthOptions, User } from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { Session } from 'next-auth';
-import { JWT } from 'next-auth/jwt';
+//import { Session } from 'next-auth';
+//import { JWT } from 'next-auth/jwt';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 // type AuthorizeProps = {
@@ -9,7 +9,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 //   password: string;
 // };
 
-const options: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/sign-in'
     // signOut: '/auth/signout',
@@ -27,16 +27,16 @@ const options: NextAuthOptions = {
       },
       async authorize(credentials) {
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/auth/local`,
+          `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/auth/local`,
           {
             method: 'POST',
             body: new URLSearchParams({
               identifier: credentials?.email as string,
               password: credentials?.password as string
             })
-            // headers: { 'Content-Type': 'application/json' }
           }
         );
+
         const data = await res.json();
 
         // Return null if user data could not be retrieved
@@ -56,7 +56,14 @@ const options: NextAuthOptions = {
   ],
   session: {
     // Note: `strategy` should be set to 'jwt' if no database is used.
-    strategy: 'jwt'
+    strategy: 'jwt',
+    // Seconds - How long until an idle session expires and is no longer valid.
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+
+    // Seconds - Throttle how frequently to write to database to extend a session.
+    // Use it to limit write operations. Set to 0 to always update the database.
+    // Note: This option is ignored if using JSON Web Tokens
+    updateAge: 24 * 60 * 60 // 24 hours
   },
   jwt: {
     // The secret should be set to a reasonably long random string.
@@ -65,22 +72,28 @@ const options: NextAuthOptions = {
     secret: process.env.SECRET
   },
   callbacks: {
+    //
     async session({ session, token }) {
       // Send properties to the client, like an access_token from a provider.
-      session.id = token.id;
-      session.email = token.email;
-      session.name = token.name;
-      session.jwt = token.jwt;
-
-      return session;
+      return {
+        ...session,
+        id: token.id,
+        email: token.email,
+        name: token.name,
+        jwt: token.jwt
+      };
     },
     async jwt({ token, user }) {
       if (user) {
         //add any info to the token, so you can retrieve in the session calbakc and pass to the session
-        token.id = user.id;
-        token.email = user.email;
-        token.name = user.username as string;
-        token.jwt = user.jwt;
+
+        return {
+          ...token,
+          id: user.id,
+          email: user.email,
+          name: user.username as string,
+          jwt: user.jwt
+        };
       }
 
       return token;
@@ -89,6 +102,6 @@ const options: NextAuthOptions = {
 };
 
 const Auth = (req: NextApiRequest, res: NextApiResponse) =>
-  NextAuth(req, res, options);
+  NextAuth(req, res, authOptions);
 
 export default Auth;

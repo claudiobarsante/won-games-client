@@ -1,26 +1,35 @@
 import { useState } from 'react';
-import { FormContainer, FormLoading, FormError,FormSuccess } from 'components/Form';
+import { useRouter } from 'next/router';
+// -- Components
+import {
+  FormContainer,
+  FormLoading,
+  FormError,
+  FormSuccess
+} from 'components/Form';
 import Button from 'components/Button';
 import TextField from 'components/TextField';
-
-import { FieldErrors, forgotValidate } from 'utils/validations';
+// -- Icons
 import {
   CheckCircleOutline,
   Email,
   ErrorOutline
 } from '@styled-icons/material-outlined';
+// -- Utils
+import { FieldErrors, forgotValidate } from 'utils/validations';
 
 const FormForgotPassword = () => {
-  const [success,setSuccess] = useState(false);
-  const [formError, setFormError] = useState('');
   const [fieldError, setFieldError] = useState<FieldErrors>({});
-  const [values, setValues] = useState({ email: '' });
+  const [formError, setFormError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [values, setValues] = useState({ email: '' });
 
-
+  const routes = useRouter();
+  const { query } = routes;
 
   const handleInput = (field: string, value: string) => {
-    setValues((s) => ({ ...s, [field]: value }));
+    setValues((previous) => ({ ...previous, [field]: value }));
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -36,10 +45,9 @@ const FormForgotPassword = () => {
     }
 
     setFieldError({});
-
-     // enviar um post para /forgot-password pedindo um email
-     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`,
+    // enviar um post para /forgot-password pedindo um email
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/auth/forgot-password`,
       {
         method: 'POST',
         headers: {
@@ -47,28 +55,22 @@ const FormForgotPassword = () => {
         },
         body: JSON.stringify(values)
       }
-    )
+    );
 
-    const data = await response.json()
-    setLoading(false)
+    const data = await response.json();
+    setLoading(false);
 
     if (data.error) {
-     setFormError(data.message[0].messages[0].message)
-
+      const returnedError = data.message[0].messages[0].message;
+      setFormError(returnedError);
     } else {
-     setSuccess(true)
-
+      setSuccess(true);
     }
-
-
-
-
-
   };
 
   return (
     <FormContainer>
-     {success ? (
+      {success ? (
         <FormSuccess>
           <CheckCircleOutline />
           You just received an email!
@@ -86,8 +88,8 @@ const FormForgotPassword = () => {
               placeholder="Email"
               type="text"
               error={fieldError?.email}
-              //initialValue={query.email as string}
-              onInputChange={(v) => handleInput('email', v)}
+              initialValue={query.email as string}
+              onInputChange={(value) => handleInput('email', value)}
               icon={<Email />}
             />
 

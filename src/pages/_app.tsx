@@ -8,13 +8,13 @@ import GlobalStyles from 'styles/global';
 import { themeApp } from 'styles/theme';
 import React from 'react';
 import { CartProvider } from 'hooks/use-cart';
-import { SessionProvider as AuthProvider } from 'next-auth/react';
+import { SessionProvider } from 'next-auth/react';
 
-function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
+function App({ Component, pageProps: { session, ...pageProps } }: any) {
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (
-    <AuthProvider session={session}>
+    <SessionProvider session={session}>
       <ApolloProvider client={apolloClient}>
         <ThemeProvider theme={themeApp}>
           <CartProvider>
@@ -36,7 +36,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           </CartProvider>
         </ThemeProvider>
       </ApolloProvider>
-    </AuthProvider>
+    </SessionProvider>
   );
 }
 

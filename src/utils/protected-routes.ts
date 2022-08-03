@@ -1,15 +1,22 @@
 import { GetServerSidePropsContext } from 'next';
 import { getSession } from 'next-auth/react';
+import unstable_getServerSession from 'next-auth/next';
+import { authOptions } from 'pages/api/auth/[...nextauth]';
 
 async function protectedRoutes(context: GetServerSidePropsContext) {
   const session = await getSession(context);
+  // const session = await unstable_getServerSession(
+  //   context.req,
+  //   context.res,
+  //   authOptions
+  // );
 
   if (!session) {
-    //redirect 302
-    context.res.writeHead(302, {
-      Location: `/sign-in?callbackUrl=${context.resolvedUrl}` //to redirect to the page that you were before signin
-    });
-    context.res.end();
+    context.res.setHeader(
+      'Location',
+      `/sign-in?callbackUrl=${context.resolvedUrl}`
+    );
+    context.res.statusCode = 302;
   }
 
   return session;

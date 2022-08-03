@@ -7,7 +7,7 @@ import { Session } from 'next-auth';
 
 function createApolloClient(session?: Session | null) {
   const httpLink = new HttpLink({
-    uri: `${process.env.NEXT_PUBLIC_API_URL}/graphql`
+    uri: `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/graphql`
   });
 
   const authLink = setContext((_, { headers }) => {

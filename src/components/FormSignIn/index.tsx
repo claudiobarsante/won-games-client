@@ -1,17 +1,20 @@
-import * as S from './styles';
-import { Email, Lock, ErrorOutline } from '@styled-icons/material-outlined';
-import TextField from 'components/TextField';
-import Button from 'components/Button';
+import { useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+import { Email, Lock, ErrorOutline } from '@styled-icons/material-outlined';
+
 import {
-  FormContainer,
   FormLink,
+  FormContainer,
   FormLoading,
   FormError
 } from 'components/Form';
-import { useState } from 'react';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import Button from 'components/Button';
+import TextField from 'components/TextField';
+
+import * as S from './styles';
 import { FieldErrors, signInValidate } from 'utils/validations';
 
 const FormSignIn = () => {
@@ -19,15 +22,19 @@ const FormSignIn = () => {
   const [fieldError, setFieldError] = useState<FieldErrors>({});
   const [values, setValues] = useState({ email: '', password: '' });
   const [loading, setLoading] = useState(false);
+  const routes = useRouter();
+  const { push, query } = routes;
 
-  const router = useRouter();
-  const { push, query } = router; //to prevent de query to return undefined
+  const handleInput = (field: string, value: string) => {
+    setValues((s) => ({ ...s, [field]: value }));
+  };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
 
     const errors = signInValidate(values);
+
     if (Object.keys(errors).length) {
       setFieldError(errors);
       setLoading(false);
@@ -35,30 +42,30 @@ const FormSignIn = () => {
     }
 
     setFieldError({});
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result: any = await signIn('credentials', {
+
+    // sign in
+    const result = await signIn('credentials', {
       ...values,
       redirect: false,
-      callbackUrl: `${window.location.origin}${query?.callbackUrl || ''}` //takes the site base url, ex: wwww.mystite.com and concatenates to the callbackUrl define in the protected route to redirect to the page the you were before signed in
+      callbackUrl: `${window.location.origin}${query?.callbackUrl || ''}`
     });
 
+    console.log('result', result);
     if (result?.url) {
       return push(result?.url);
     }
+
     setLoading(false);
-    //if tthere's an error
+
+    // jogar o erro
     setFormError('username or password is invalid');
   };
 
-  const handleInput = (field: string, value: string) => {
-    setValues((previous) => ({ ...previous, [field]: value }));
-  };
   return (
     <FormContainer>
       {!!formError && (
         <FormError>
-          <ErrorOutline />
-          {formError}
+          <ErrorOutline /> {formError}
         </FormError>
       )}
       <form onSubmit={handleSubmit}>
@@ -67,7 +74,7 @@ const FormSignIn = () => {
           placeholder="Email"
           type="email"
           error={fieldError?.email}
-          onInputChange={(newValue) => handleInput('email', newValue)}
+          onInputChange={(v) => handleInput('email', v)}
           icon={<Email />}
         />
         <TextField
@@ -75,17 +82,19 @@ const FormSignIn = () => {
           placeholder="Password"
           type="password"
           error={fieldError?.password}
-          onInputChange={(newValue) => handleInput('password', newValue)}
+          onInputChange={(v) => handleInput('password', v)}
           icon={<Lock />}
         />
         <Link href="/forgot-password" passHref>
           <S.ForgotPassword>Forgot your password?</S.ForgotPassword>
         </Link>
+
         <Button type="submit" size="large" fullWidth disabled={loading}>
           {loading ? <FormLoading /> : <span>Sign in now</span>}
         </Button>
+
         <FormLink>
-          Don’t have an account?{''}
+          Don’t have an account?{' '}
           <Link href="/sign-up">
             <a>Sign up</a>
           </Link>
