@@ -41,7 +41,7 @@ export const authOptions: NextAuthOptions = {
 
         // Return null if user data could not be retrieved
         if (!data.user) return null;
-
+        console.log('data', data);
         // Any object returned will be saved in `user` property of the JWT
         const user = {
           id: data.user.id.toString(),
@@ -80,7 +80,8 @@ export const authOptions: NextAuthOptions = {
         id: token.id,
         email: token.email,
         name: token.name,
-        jwt: token.jwt
+        jwt: token.jwt,
+        user: { ...session.user, image: '' } //*had to set image to '' because the default is undefined. See session.user object for details.
       };
     },
     async jwt({ token, user }) {
