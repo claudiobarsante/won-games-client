@@ -19,14 +19,14 @@ import {
 import { FieldErrors, forgotValidate } from 'utils/validations';
 
 const FormForgotPassword = () => {
+  const { query } = useRouter();
   const [fieldError, setFieldError] = useState<FieldErrors>({});
   const [formError, setFormError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [values, setValues] = useState({ email: '' });
-
-  const routes = useRouter();
-  const { query } = routes;
+  const [values, setValues] = useState({
+    email: (query.email as string) || ''
+  });
 
   const handleInput = (field: string, value: string) => {
     setValues((previous) => ({ ...previous, [field]: value }));
