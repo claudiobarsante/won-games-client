@@ -1,19 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<FormSignIn /> should render the form 1`] = `
-.c6 {
-  display: block;
-  font-size: 1.4rem;
-  color: #030517;
-  -webkit-text-decoration: none;
-  text-decoration: none;
-  text-align: right;
-}
-
-.c6:hover {
-  color: #0f1971;
-}
-
 .c4 {
   display: inline-block;
   vertical-align: middle;
@@ -129,6 +116,19 @@ exports[`<FormSignIn /> should render the form 1`] = `
   border-bottom: 0.1rem solid #29b3a3;
 }
 
+.c6 {
+  display: block;
+  font-size: 1.4rem;
+  color: #030517;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  text-align: right;
+}
+
+.c6:hover {
+  color: #0f1971;
+}
+
 <body>
   <div>
     <main
@@ -233,7 +233,7 @@ exports[`<FormSignIn /> should render the form 1`] = `
           class="c9"
         >
           Don’t have an account?
-          
+           
           <div>
             <a>
               Sign up

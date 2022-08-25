@@ -10,10 +10,19 @@ function createApolloClient(session?: Session | null) {
     uri: `${process.env.NEXT_PUBLIC_STRAPI_API_URL}/graphql`
   });
 
-  const authLink = setContext((_, { headers }) => {
-    const authorization = session?.jwt ? `Bearer ${session.jwt}` : '';
+  //*Here passing the session from the client side too as ClientSession, so ApolloClient
+  //* tries to get the session from the client or server side
+  const authLink = setContext((_, { headers, session: clientSession }) => {
+    const jwt = session?.jwt || clientSession?.jwt || '';
+    const authorization = jwt ? `Bearer ${jwt}` : '';
     return { headers: { ...headers, authorization } };
   });
+
+  //? to get session only on the server-side
+  // const authLink = setContext((_, { headers }) => {
+  //   const authorization = session?.jwt ? `Bearer ${session.jwt}` : '';
+  //   return { headers: { ...headers, authorization } };
+  // });
 
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
