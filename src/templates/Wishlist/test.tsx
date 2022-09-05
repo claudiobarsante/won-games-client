@@ -1,18 +1,19 @@
-import 'match-media-mock';
 import 'session.mock';
-import { screen } from '@testing-library/react';
-import { renderWithTheme } from 'utils/tests/helpers';
+import 'match-media-mock';
+import { render, screen } from 'utils/test-utils';
 
 import Wishlist from '.';
+
 import gamesMock from 'components/GameCardSlider/mock';
 import highlightMock from 'components/Highlight/mock';
+import { WishlistContextDefaultValues } from 'hooks/use-wishlist';
 
 const props = {
-  games: gamesMock,
+  recommendedTitle: 'You may like these games',
   recommendedHighlight: highlightMock,
-  recommendedGames: gamesMock,
-  recommendedTitle: 'You may like these games'
+  recommendedGames: gamesMock
 };
+
 jest.mock('templates/Base', () => ({
   __esModule: true,
   default: function Mock({ children }: { children: React.ReactNode }) {
@@ -29,22 +30,34 @@ jest.mock('components/Showcase', () => ({
 
 describe('<Wishlist />', () => {
   it('should render correctly', () => {
-    renderWithTheme(<Wishlist {...props} />);
+    const wishlistProviderProps = {
+      ...WishlistContextDefaultValues,
+      items: [gamesMock[0]]
+    };
+
+    render(<Wishlist {...props} />, { wishlistProviderProps });
 
     expect(
       screen.getByRole('heading', { name: /wishlist/i })
     ).toBeInTheDocument();
-    expect(screen.getAllByText(/population zero/i)).toHaveLength(6);
+
+    expect(screen.getByText(/population zero/i)).toBeInTheDocument();
     expect(screen.getByTestId('Mock Showcase')).toBeInTheDocument();
   });
 
-  it('should render empty when thre are no games', () => {
-    renderWithTheme(
+  it('should render empty when there are no games', () => {
+    const wishlistProviderProps = {
+      ...WishlistContextDefaultValues,
+      items: []
+    };
+
+    render(
       <Wishlist
         recommendedTitle="You may like these games"
         recommendedGames={gamesMock}
         recommendedHighlight={highlightMock}
-      />
+      />,
+      { wishlistProviderProps }
     );
 
     expect(screen.queryByText(/population zero/i)).not.toBeInTheDocument();
