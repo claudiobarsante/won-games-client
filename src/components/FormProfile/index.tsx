@@ -11,7 +11,7 @@ export type FormProfileProps = {
 };
 
 const FormProfile = ({ email, username }: FormProfileProps) => (
-  <S.Wrapper>
+  <>
     <Heading lineBottom color="black" size="small">
       My profile
     </Heading>
@@ -42,7 +42,7 @@ const FormProfile = ({ email, username }: FormProfileProps) => (
         <Button size="medium">Save</Button>
       </S.ButtonContainer>
     </S.Form>
-  </S.Wrapper>
+  </>
 );
 
 export default FormProfile;

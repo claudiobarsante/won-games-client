@@ -7,6 +7,7 @@ import Games from '.';
 import { fetchMoreMock, gamesMock, noGamesMock } from './mocks';
 import userEvent from '@testing-library/user-event';
 import apolloCache from 'utils/apolloCache';
+import 'session.mock';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const useRouter = jest.spyOn(require('next/router'), 'useRouter');

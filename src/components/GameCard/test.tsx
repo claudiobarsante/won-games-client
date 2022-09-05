@@ -1,7 +1,7 @@
 //import 'session.mock';
 import { render, screen } from 'utils/test-utils';
 import { themeApp } from 'styles/theme';
-
+import 'session.mock';
 import GameCard from '.';
 
 const props = {

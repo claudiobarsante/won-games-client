@@ -1,4 +1,5 @@
 import 'match-media-mock';
+import 'session.mock';
 import { screen } from '@testing-library/react';
 import { renderWithTheme } from 'utils/tests/helpers';
 

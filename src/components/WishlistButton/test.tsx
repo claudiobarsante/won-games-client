@@ -1,5 +1,5 @@
 import { WishlistContextDefaultValues } from 'hooks/use-wishlist';
-import { act, render, screen } from 'utils/test-utils';
+import { act, render, screen, waitFor } from 'utils/test-utils';
 import userEvent from '@testing-library/user-event';
 import WishlistButton from '.';
 
@@ -86,7 +86,9 @@ describe('<WishlistButton />', () => {
       userEvent.click(screen.getByText(/add to wishlist/i));
     });
 
-    expect(wishlistProviderProps.addToWishlist).toHaveBeenCalledWith('1');
+    waitFor(() => {
+      expect(wishlistProviderProps.addToWishlist).toHaveBeenCalledWith('1');
+    });
   });
 
   it('should remove from wishlist', async () => {
@@ -101,7 +103,10 @@ describe('<WishlistButton />', () => {
     act(() => {
       userEvent.click(screen.getByText(/remove from wishlist/i));
     });
-
-    expect(wishlistProviderProps.removeFromWishlist).toHaveBeenCalledWith('1');
+    waitFor(() => {
+      expect(wishlistProviderProps.removeFromWishlist).toHaveBeenCalledWith(
+        '1'
+      );
+    });
   });
 });
