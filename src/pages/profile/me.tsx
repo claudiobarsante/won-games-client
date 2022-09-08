@@ -23,8 +23,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context);
   const apolloClient = initializeApollo(null, session);
 
-  console.log('session', session);
-
   if (!session) {
     return { props: {} };
   }
@@ -35,7 +33,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   >({
     query: QUERY_PROFILE_ME,
     variables: {
-      identifier: session?.id as string
+      identifier: session?.id as string //id do user
     }
   });
 
