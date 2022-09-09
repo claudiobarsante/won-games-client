@@ -1,25 +1,26 @@
+import Success, { SuccessTemplateProps } from 'templates/Success';
+
 import { initializeApollo } from 'utils/apollo';
 import { QueryRecommended } from 'graphql/generated/QueryRecommended';
 import { QUERY_RECOMMENDED } from 'graphql/queries/recommended';
 import { gamesMapper, highlightMapper } from 'utils/mappers';
-import Cart, { CartProps } from 'templates/Cart';
+// -- Confetti effect
+import { runFireworks } from 'utils/canvas-confetti';
+import { useEffect } from 'react';
 
-import { GetServerSidePropsContext } from 'next';
-import protectedRoutes from 'utils/protected-routes';
-
-export default function CartPage(props: CartProps) {
-  return <Cart {...props} />;
+export default function SuccessPage(props: SuccessTemplateProps) {
+  return <Success {...props} />;
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const session = await protectedRoutes(context);
-  const apolloClient = initializeApollo(null, session);
+export async function getStaticProps() {
+  const apolloClient = initializeApollo();
 
   const { data } = await apolloClient.query<QueryRecommended>({
     query: QUERY_RECOMMENDED
   });
 
   return {
+    revalidate: 60 * 60,
     props: {
       recommendedTitle: data.recommended?.section?.title,
       recommendedGames: gamesMapper(data.recommended?.section?.games),
