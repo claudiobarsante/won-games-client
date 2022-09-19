@@ -1,4 +1,3 @@
-import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { ApolloProvider } from '@apollo/client';
@@ -10,10 +9,10 @@ import React from 'react';
 import { CartProvider } from 'hooks/use-cart';
 import { SessionProvider } from 'next-auth/react';
 import { WishlistProvider } from 'hooks/use-wishlist';
-
+import { AppProps } from 'next/app';
 //? _app.tsx runs  client and server side
 
-function App({ Component, pageProps: { session, ...pageProps } }: any) {
+function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   return (

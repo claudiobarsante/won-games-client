@@ -5,6 +5,13 @@ import protectedRoutes from 'utils/protected-routes';
 import ordersMock from 'components/OrdersList/mock';
 import React from 'react';
 import OrdersList, { OrdersListProps } from 'components/OrdersList';
+import { initializeApollo } from 'utils/apollo';
+import {
+  QueryOrders,
+  QueryOrdersVariables
+} from 'graphql/generated/QueryOrders';
+import { QUERY_ORDERS } from 'graphql/queries/orders';
+import { ordersMapper } from 'utils/mappers';
 
 export default function Orders({ items }: OrdersListProps) {
   return (
@@ -16,9 +23,20 @@ export default function Orders({ items }: OrdersListProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context);
+  const apolloClient = initializeApollo(null, session);
+
+  if (!session) return { props: {} };
+
+  const { data } = await apolloClient.query<QueryOrders, QueryOrdersVariables>({
+    query: QUERY_ORDERS,
+    variables: {
+      identifier: session?.id as string
+    },
+    fetchPolicy: 'no-cache' //to always get updated data
+  });
   return {
     props: {
-      items: ordersMock,
+      items: ordersMapper(data.orders),
       session
     }
   };

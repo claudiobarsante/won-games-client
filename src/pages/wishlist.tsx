@@ -21,7 +21,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const session = await protectedRoutes(context);
   const apolloClient = initializeApollo(null, session);
 
-  if (!session) return {};
+  if (!session) {
+    return { props: {} };
+  }
 
   //fazendo a chamada para pegar do cache a wishlist
   await apolloClient.query<QueryWishlist, QueryWishlistVariables>({
