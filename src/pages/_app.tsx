@@ -1,3 +1,5 @@
+import { DefaultSeo } from 'next-seo';
+import SEO from '../../next-seo.config';
 import Head from 'next/head';
 import { ThemeProvider } from 'styled-components';
 import { ApolloProvider } from '@apollo/client';
@@ -28,6 +30,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
                 <link rel="manifest" href="/manifest.json" />
                 <meta name="description" content="The best Game Store" />
               </Head>
+              <DefaultSeo {...SEO} />
               <GlobalStyles />
               <NextNprogress
                 color="#F231A5"
