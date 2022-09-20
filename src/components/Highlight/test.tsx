@@ -38,9 +38,9 @@ describe('<Highlight />', () => {
     // -- will get the S.Container(section)
     expect(container.firstChild).toBeInTheDocument();
 
-    expect(container.firstChild).toHaveStyle({
-      backgroundImage: `url(${props.backgroundImage})`
-    });
+    expect(
+      screen.getByRole('img', { name: `${props.title} background` })
+    ).toHaveAttribute('src', `${props.backgroundImage}`);
   });
 
   it('should render float image', () => {

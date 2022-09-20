@@ -2,7 +2,9 @@ import { ThemeProvider } from 'styled-components'
 import GlobalStyles from 'styles/global'
 import { themeApp } from 'styles/theme';
 import {CartContext,CartContextDefaultValues} from 'hooks/use-cart'
-
+import '../.jest/next-image.mock'
+//import {addDecorator} from '@storybook/react';
+//import { withNextRouter} from 'storybook-add-on-next-router';
 
 
 export const parameters = {
@@ -20,6 +22,8 @@ export const parameters = {
     ]
   }
 }
+
+//addDecorator(withNextRouter);
 // export const parameters = {
 //   actions: { argTypesRegex: "^on[A-Z].*" },
 //   controls: {
