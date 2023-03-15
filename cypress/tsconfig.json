@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["es5", "dom"],
+    "types": ["cypress", "@testing-library/cypress"]
+  },
+  "include": ["**/*.ts"]
+}
+
+// {
+//   "extends": "../tsconfig.json",
+//   "compilerOptions": {
+//     "noEmit": true,
+//     "isolatedModules": false,
+//     // be explicit about types included
+//     // to avoid clashing with Jest types
+//     "types": ["cypress", "@testing-library/cypress"]
+//   },
+//   "include": [
+//     "../node_modules/cypress",
+//     "./**/*.ts","../cypress.d.ts"
+//   ]
+// }
+
+// {
+//   "extends": "../tsconfig.json",
+//   "compilerOptions": {
+//     "noEmit": true,
+//     // be explicit about types included
+//     // to avoid clashing with Jest types
+//     "types": ["cypress","@testing-library/cypress"]
+//   },
+//   "include": [
+//     "../node_modules/cypress",
+//     "./**/*.ts"
+//   ]
+// }

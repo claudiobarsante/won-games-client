@@ -1,6 +1,6 @@
 {
-  "name": "Next js - Boilerplate",
-  "short_name": "Boilerplate",
+  "name": "Won Games",
+  "short_name": "Won Games",
   "icons": [
     {
       "src": "/img/icon-192.png",
@@ -14,7 +14,7 @@
     }
   ],
   "background_color": "#06092B",
-  "description": "Boilerlate with Typescript, React, NextJS and Styled Components!",
+  "description": "The best game store in the world",
   "display": "fullscreen",
   "start_url": "/",
   "theme_color": "#06092B"
