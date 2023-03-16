@@ -65,5 +65,18 @@ Cypress.Commands.add('shouldRenderBanner', () => {
 Cypress.Commands.add('shouldRenderShowcase', ({ name, highlight = false }) => {
   cy.get(`[data-cy="${name}"]`).within(() => {
     cy.findByRole('heading', { name }).should('exist');
+    // -- condicional de assert para se existir o component highlight
+    //? -- incluir no componente highlight data-cy="highlight"
+    cy.get(`[data-cy="highlight"]`).should(highlight ? 'exist' : 'not.exist');
+
+    // -- dentro do highlight tem q ter um link
+    if (highlight) {
+      cy.get(`[data-cy="highlight"]`).within(() => {
+        cy.findByRole('link').should('have.attr', 'href');
+        cy.findByRole('link', { name: /Buy now/i });
+      });
+    }
+    // -- tem que ter 3 cards dentro do showcase -- gt significa grater than 0
+    //   cy.get(`[data-cy="game-card"]`).should('have.length.gt', 0);
   });
 });

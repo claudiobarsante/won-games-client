@@ -9,10 +9,10 @@ describe('Home Page', () => {
     // -- ver logica no commands.ts, é bom para o caso de você ter o banner em mais de uma página
     // -- ai não precisa repetir o código
     cy.shouldRenderBanner();
-    cy.shouldRenderShowcase({ name: 'New Games' });
-    cy.shouldRenderShowcase({ name: 'Most Popular Games' });
-    cy.shouldRenderShowcase({ name: 'Up coming games' });
-    cy.shouldRenderShowcase({ name: 'Free Games' });
+    cy.shouldRenderShowcase({ name: 'New Games', highlight: false });
+    cy.shouldRenderShowcase({ name: 'Most Popular Games', highlight: true });
+    cy.shouldRenderShowcase({ name: 'Up coming games', highlight: false });
+    cy.shouldRenderShowcase({ name: 'Free Games', highlight: false });
   });
 });
 
