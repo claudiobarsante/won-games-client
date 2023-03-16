@@ -23,5 +23,10 @@ declare namespace Cypress {
      * @example cy.shouldRenderShowcase
      */
     shouldRenderShowcase(attrs: ShowcaseAttributes): Chainable<Element>;
+    /**
+     * Custom command to get element by data-cy
+     * @example cy.getByDataCy('selector')
+     */
+    getByDataCy(selector: string): Chainable<Element>;
   }
 }

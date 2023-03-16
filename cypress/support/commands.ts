@@ -38,6 +38,10 @@ import { cy, Cypress, expect, describe, it } from 'local-cypress';
 // }
 import '@testing-library/cypress/add-commands';
 Cypress.Commands.add('google', () => cy.visit('https://www.google.com/'));
+// -- passa o selector e outros argumentos se necessário ...args
+Cypress.Commands.add('getByDataCy', (selector, ...args) => {
+  return cy.get(`[data-cy="${selector}"]`, ...args);
+});
 Cypress.Commands.add('shouldRenderBanner', () => {
   // -- verificar no slider pela classe '.slick-slider' e ver se no primeiro slide tem o jogo'Evenicle'
   // -- depois achar o botão
@@ -67,7 +71,7 @@ Cypress.Commands.add('shouldRenderShowcase', ({ name, highlight = false }) => {
     cy.findByRole('heading', { name }).should('exist');
     // -- condicional de assert para se existir o component highlight
     //? -- incluir no componente highlight data-cy="highlight"
-    cy.get(`[data-cy="highlight"]`).should(highlight ? 'exist' : 'not.exist');
+    cy.getByDataCy('highlight').should(highlight ? 'exist' : 'not.exist');
 
     // -- dentro do highlight tem q ter um link
     if (highlight) {
