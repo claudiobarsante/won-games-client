@@ -5,6 +5,11 @@ type ShowcaseAttributes = {
   name: string;
   highlight?: boolean;
 };
+
+type FieldsAttributes = {
+  label: string;
+  name: string | number;
+};
 // -- Chainable é um comando que pode ser enccadeado tipo comando().outrocomando()...
 declare namespace Cypress {
   interface Chainable {
@@ -28,5 +33,10 @@ declare namespace Cypress {
      * @example cy.getByDataCy('selector')
      */
     getByDataCy(selector: string): Chainable<Element>;
+    /**
+     * Custom command to get fields by label
+     * @example cy.getByDataCy('selector')
+     */
+    getFields(fields: FieldsAttributes[]): Chainable<Element>;
   }
 }
