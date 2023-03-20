@@ -48,6 +48,8 @@
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/preset-typescript": "^7.15.0",
+    "@faker-js/faker": "^7.6.0",
+    "@jackfranklin/test-data-bot": "^2.1.0",
     "@react-theming/storybook-addon": "^1.1.5",
     "@storybook/addon-essentials": "^6.4.19",
     "@storybook/react": "^6.4.19",
