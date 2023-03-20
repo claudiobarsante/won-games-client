@@ -18,7 +18,7 @@ const GameInfo = ({ id, title, description, price }: GameInfoProps) => {
   const formattedPrice = formatPrice(price);
 
   return (
-    <S.Wrapper>
+    <S.Wrapper data-cy="game-info">
       <Heading color="black" lineBottom>
         {title}
       </Heading>
