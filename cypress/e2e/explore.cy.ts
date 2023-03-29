@@ -1,4 +1,4 @@
-import { cy, Cypress, expect, describe, it } from 'local-cypress';
+import { cy, Cypress, expect, describe, it, beforeEach } from 'local-cypress';
 
 import {
   genreFields,
@@ -8,8 +8,12 @@ import {
 } from './../../src/utils/filter/fields';
 
 describe('Explore page', () => {
-  it('should', () => {
+  beforeEach(() => {
+    // visitar a página
     cy.visit('/games');
+  });
+  it('should render filters columns', () => {
+    // cy.visit('/games');
     // -- Headings
     cy.findByRole('heading', { name: /sort by price/i }).should('exist');
     cy.findByRole('heading', { name: /^price/i }).should('exist');
@@ -24,5 +28,11 @@ describe('Explore page', () => {
     // platformFields.map(({ label }) => cy.findByText(label).should('exist'));
     // priceFields.map(({ label }) => cy.findByText(label).should('exist'));
     // sortFields.map(({ label }) => cy.findByText(label).should('exist'));
+  });
+
+  it('should show 15 games and show more games when "show more" is clicked', () => {
+    cy.get(`[data-cy="game-card"]`).should('have.length', 15);
+    cy.findByRole('button', { name: /show more/i }).click();
+    cy.get(`[data-cy="game-card"]`).should('have.length', 30);
   });
 });
