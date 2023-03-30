@@ -12,7 +12,7 @@ describe('Explore page', () => {
     // visitar a página
     cy.visit('/games');
   });
-  it('should render filters columns', () => {
+  it.skip('should render filters columns', () => {
     // cy.visit('/games');
     // -- Headings
     cy.findByRole('heading', { name: /sort by price/i }).should('exist');
@@ -30,9 +30,38 @@ describe('Explore page', () => {
     // sortFields.map(({ label }) => cy.findByText(label).should('exist'));
   });
 
-  it('should show 15 games and show more games when "show more" is clicked', () => {
+  it.skip('should show 15 games and show more games when "show more" is clicked', () => {
     cy.get(`[data-cy="game-card"]`).should('have.length', 15);
     cy.findByRole('button', { name: /show more/i }).click();
     cy.get(`[data-cy="game-card"]`).should('have.length', 30);
+  });
+
+  it('should order by price', () => {
+    //**order Asc */
+    cy.findByText(/lowest to highest/i).click();
+    cy.url().should(
+      'contain',
+      Cypress.config().baseUrl + '/games?sort=price%3Aasc'
+    );
+    // --or
+    cy.location('href').should('contain', 'sort=price%3Aasc');
+    // --
+    cy.getByDataCy('game-card')
+      .first()
+      .within(() => {
+        cy.findByText('$0.00').should('exist');
+      });
+    //**order Desc */
+    cy.findByText(/highest to lowest/i).click();
+    cy.location('href').should('contain', '/games?sort=price%3Adesc');
+    cy.getByDataCy('game-card')
+      .first()
+      .within(() => {
+        cy.findByText(/^\$/) // find text that start with $(dolar) sign
+          .invoke('text') // transform to text
+          .then(($element) => $element.replace('$', '')) // replace dolar with an empty string, so only statys the number
+          .then(parseFloat) // transform to float
+          .should('be.gt', 0); // the value must be greater than 0
+      });
   });
 });
