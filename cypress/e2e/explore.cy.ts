@@ -118,4 +118,33 @@ describe('Explore page', () => {
         cy.shouldBeLessThan(500);
       });
   });
+
+  it('should filter by platform', () => {
+    cy.findByText('Windows').click();
+    cy.location('href').should('contain', '/games?platforms=windows');
+    cy.findByText('Linux').click();
+    cy.location('href').should(
+      'contain',
+      '/games?platforms=windows&platforms=linux'
+    );
+    cy.findByText('Mac OS').click();
+    cy.location('href').should(
+      'contain',
+      '/games?platforms=windows&platforms=linux&platforms=mac'
+    );
+  });
+
+  it('should return empty when no games match', () => {
+    // clear url
+    cy.visit('/games');
+
+    //? -- group that I know that there isn't any games
+    cy.findByText(/free/i).click();
+    cy.findByText(/linux/i).click();
+    cy.findByText(/sports/i).click();
+    //? --------------------------------------------
+
+    cy.getByDataCy('game-card').should('not.exist');
+    cy.findByText(/We didn't find any games with this filter/i).should('exist');
+  });
 });
