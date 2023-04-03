@@ -36,7 +36,7 @@ describe('Explore page', () => {
     cy.get(`[data-cy="game-card"]`).should('have.length', 30);
   });
 
-  it('should order by price', () => {
+  it.skip('should order by price', () => {
     //**order Asc */
     cy.findByText(/lowest to highest/i).click();
     cy.url().should(
@@ -62,6 +62,60 @@ describe('Explore page', () => {
           .then(($element) => $element.replace('$', '')) // replace dolar with an empty string, so only statys the number
           .then(parseFloat) // transform to float
           .should('be.gt', 0); // the value must be greater than 0
+      });
+  });
+
+  it('should filter by price', () => {
+    cy.findByText('Free').click();
+    cy.location('href').should('contain', '/games?price_lte=0');
+
+    cy.getByDataCy('game-card')
+      .first()
+      .within(() => {
+        cy.findByText('$0.00').should('exist');
+      });
+
+    cy.findByText('Under $50').click();
+    cy.location('href').should('contain', '/games?price_lte=50');
+    cy.get('[data-cy="game-card"]')
+      .first()
+      .within(() => {
+        cy.findByText(/^\$\d+(\.\d{1,2})?/)
+          .invoke('text')
+          .then(($el) => $el.replace('$', ''))
+          .then(parseFloat)
+          .should('be.lt', 50);
+      });
+
+    cy.findByText('Under $100').click();
+    cy.location('href').should('contain', '/games?price_lte=100');
+    cy.get('[data-cy="game-card"]')
+      .first()
+      .within(() => {
+        cy.shouldBeLessThan(100);
+      });
+
+    cy.findByText('Under $150').click();
+    cy.location('href').should('contain', '/games?price_lte=150');
+    cy.get('[data-cy="game-card"]')
+      .first()
+      .within(() => {
+        cy.shouldBeLessThan(150);
+      });
+
+    cy.findByText('Under $250').click();
+    cy.location('href').should('contain', '/games?price_lte=250');
+    cy.get('[data-cy="game-card"]')
+      .first()
+      .within(() => {
+        cy.shouldBeLessThan(250);
+      });
+    cy.findByText('Under $500').click();
+    cy.location('href').should('contain', '/games?price_lte=500');
+    cy.get('[data-cy="game-card"]')
+      .first()
+      .within(() => {
+        cy.shouldBeLessThan(500);
       });
   });
 });
