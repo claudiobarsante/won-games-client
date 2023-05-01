@@ -1,4 +1,4 @@
-import { cy, Cypress, describe, it, expect } from 'local-cypress';
+import { cy, describe, it, expect } from 'local-cypress';
 
 describe('Forgot password', () => {
   it('should fill the input and receive a success message', () => {
@@ -42,10 +42,10 @@ describe('Forgot password', () => {
 
     cy.visit('/forgot-password');
 
-    cy.findAllByPlaceholderText(/email/i).type('ci@wongames.com');
+    cy.findAllByPlaceholderText(/email/i).type('false@wongames.com');
     cy.findByRole('button', { name: /send email/i }).click();
 
-    // eu espero receber a mensagem de sucesso
+    // eu espero receber a mensagem de erro
     cy.findByText(/This email does not exist/i).should('exist');
   });
 });
