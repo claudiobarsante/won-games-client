@@ -10,6 +10,13 @@ type FieldsAttributes = {
   label: string;
   name: string | number;
 };
+
+type User = {
+  username: string;
+  email: string;
+  password: string;
+};
+
 // -- Chainable é um comando que pode ser enccadeado tipo comando().outrocomando()...
 declare namespace Cypress {
   interface Chainable {
@@ -18,6 +25,18 @@ declare namespace Cypress {
      * @example cy.google()
      */
     google(): Chainable<Window>;
+
+    /**
+     * Custom command to sign up
+     * @example cy.signUp(user)
+     */
+    signUp(user: User): Chainable<Element>;
+
+    /**
+     * Custom command to sign up
+     * @example cy.signIn()
+     */
+    signIn(email?: string, password?: string): Chainable<Element>;
     /**
      * Custom command to check banner in page
      * @example cy.shouldRenderBanner
