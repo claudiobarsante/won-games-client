@@ -40,6 +40,23 @@ describe('Checkout', () => {
       // show sucess text
       cy.findByText(/your purchase was successful!/i).should('exist');
     });
+
+    it('should show games in order page', () => {
+      cy.visit('/profile/orders');
+      cy.location('href').should(
+        'eq',
+        `${Cypress.config().baseUrl}/sign-in?callbackUrl=/profile/orders`
+      );
+      // click on orders link
+      cy.signIn(user.email, user.password);
+      cy.location('href').should(
+        'eq',
+        `${Cypress.config().baseUrl}/profile/orders`
+      );
+      // check for game ordered
+     // cy.get('.styles__Content-sc-2zwf2c-1').should('have.length', 1);
+      cy.getByDataCy('game-item').should('have.length', 1);
+    });
   });
 
   describe('Paid Games', () => {});
