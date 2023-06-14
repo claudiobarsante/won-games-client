@@ -107,7 +107,7 @@ Cypress.Commands.add('shouldBeLessThan', (value) => {
 });
 
 Cypress.Commands.add('signUp', (user: User) => {
-  cy.findByPlaceholderText(/username/i).type(user.username);
+  cy.findByPlaceholderText(/user name/i).type(user.username);
   cy.findByPlaceholderText(/email/i).type(user.email);
   cy.findByPlaceholderText(/^password/i).type(user.password);
   cy.findByPlaceholderText(/confirm password/i).type(user.password);
@@ -122,3 +122,19 @@ Cypress.Commands.add(
     cy.findByRole('button', { name: /sign in now/i }).click();
   }
 );
+
+Cypress.Commands.add('addToCartByIndex', (index) => {
+  cy.getByDataCy('game-card')
+    .eq(index)
+    .within(() => {
+      cy.findByRole('button', { name: /add to cart/i }).click();
+    });
+});
+
+Cypress.Commands.add('removeFromCartByIndex', (index) => {
+  cy.getByDataCy('game-card')
+    .eq(index)
+    .within(() => {
+      cy.findByRole('button', { name: /remove from cart/i }).click();
+    });
+});
