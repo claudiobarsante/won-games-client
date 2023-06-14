@@ -37,7 +37,7 @@ import { cy, Cypress, expect, describe, it } from 'local-cypress';
 //   }
 // }
 import '@testing-library/cypress/add-commands';
-
+import 'cypress-plugin-stripe-elements';
 Cypress.Commands.add('google', () => cy.visit('https://www.google.com/'));
 // -- passa o selector e outros argumentos se necessário ...args
 Cypress.Commands.add('getByDataCy', (selector, ...args) => {
